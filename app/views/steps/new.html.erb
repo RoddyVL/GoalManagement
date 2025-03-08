@@ -1,0 +1,23 @@
+<div class='container mt-5'>
+
+  <h1 class='text-center'><%= "définir les étapes pour: #{@goal.description}" %></h1>
+
+  <%= simple_form_for [@goal, @step] do |f| %>
+    <%= f.input :description %>
+    <%= f.input :estimated_minute %>
+    <%= f.submit 'ajouter une étape', class: 'btn btn-outline-dark' %>
+  <% end %>
+
+  <div class='mt-5'>
+    <% if @steps&.any? %>
+        <ol>
+      <% @steps.each do |step| %>
+          <li class='my-2'><%= "#{step.description} - #{step.estimated_minute} min" %></li>
+      <% end %>
+        </ol>
+    <% end %>
+  </div>
+
+  <%= link_to 'étape suivante', new_goal_time_slot_path(@goal), class: 'btn btn-outline-primary' %>
+
+</div>
