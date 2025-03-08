@@ -4,7 +4,7 @@ class CreateTimeSlots < ActiveRecord::Migration[7.1]
       t.integer :day_of_week
       t.time :start_time
       t.time :end_time
-      t.references :project, null: false, foreign_key: true
+      t.references :goal, null: false, foreign_key: true
 
       t.timestamps
     end
