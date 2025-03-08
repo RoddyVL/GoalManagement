@@ -1,0 +1,7 @@
+<div class='container mt-5'>
+<h1 class='text-center'> Je créer un objectif </h1>
+  <%= simple_form_for @goal do |f| %>
+    <%= f.input :description %>
+    <%= f.submit 'définir un objectif', class:'btn btn-outline-dark' %>
+  <% end %>
+</div>
