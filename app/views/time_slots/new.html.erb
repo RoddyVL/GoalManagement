@@ -9,6 +9,8 @@
     <%= f.submit 'ajouter un créneau' %>
   <% end %>
 
+  <%= link_to "Générer le calendrier", generate_calendar_goal_time_slots_path, class: "btn btn-outline-dark mt-5" %>
+
   <div class='mt-5'>
     <% TimeSlot.day_of_weeks.keys.each do |day| %>
       <h3><%= day.capitalize %></h3>

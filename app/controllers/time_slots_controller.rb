@@ -17,6 +17,10 @@ class TimeSlotsController < ApplicationController
     end
   end
 
+  def generate_calendar
+    redirect_to goals_path, notice: "Génération du calendrier en cours..."
+  end
+
   private
 
   def set_goal
