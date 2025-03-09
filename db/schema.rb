@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_08_182927) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_09_011616) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_08_182927) do
     t.bigint "time_slot_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "goal_id", null: false
+    t.index ["goal_id"], name: "index_calendars_on_goal_id"
     t.index ["step_id"], name: "index_calendars_on_step_id"
     t.index ["time_slot_id"], name: "index_calendars_on_time_slot_id"
   end
@@ -64,6 +66,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_08_182927) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "calendars", "goals"
   add_foreign_key "calendars", "steps"
   add_foreign_key "calendars", "time_slots"
   add_foreign_key "goals", "users"

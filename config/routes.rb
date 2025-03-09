@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   resources :goals, only: %i[new create index] do
+    resources :calendars, only: %i[index]
     resources :steps, only: %i[new create]
     resources :time_slots, only: %i[new create] do
       collection do
