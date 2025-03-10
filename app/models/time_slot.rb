@@ -16,6 +16,10 @@ class TimeSlot < ApplicationRecord
     dimanche: 6
   }, _prefix: true
 
+  def total_time
+    (end_time - start_time) / 60
+  end
+
   def end_time_must_be_after_start_time
     if end_time.present? && start_time.present? && end_time <= start_time
       errors.add(:end_time, "doit être après l'heure de début")
