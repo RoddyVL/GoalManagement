@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_09_213301) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_12_090512) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,32 +22,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_09_213301) do
     t.index ["user_id"], name: "index_goals_on_user_id"
   end
 
-  create_table "meetings", force: :cascade do |t|
-    t.string "name"
+  create_table "sessions", force: :cascade do |t|
     t.datetime "start_time"
     t.datetime "end_time"
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_meetings_on_user_id"
-  end
-
-  create_table "sessions", force: :cascade do |t|
-    t.integer "day_of_week"
-    t.time "start_time"
-    t.time "end_time"
-    t.string "description"
-    t.integer "estimated_minute"
-    t.integer "status", default: 0, null: false
-    t.integer "priority"
     t.bigint "goal_id", null: false
-    t.bigint "step_id", null: false
-    t.bigint "time_slot_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["goal_id"], name: "index_sessions_on_goal_id"
-    t.index ["step_id"], name: "index_sessions_on_step_id"
-    t.index ["time_slot_id"], name: "index_sessions_on_time_slot_id"
   end
 
   create_table "steps", force: :cascade do |t|
@@ -58,7 +39,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_09_213301) do
     t.bigint "goal_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "session_id"
     t.index ["goal_id"], name: "index_steps_on_goal_id"
+    t.index ["session_id"], name: "index_steps_on_session_id"
   end
 
   create_table "time_slots", force: :cascade do |t|
@@ -83,31 +66,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_09_213301) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "work_sessions", force: :cascade do |t|
-    t.time "start_time"
-    t.time "end_time"
-    t.integer "day_of_week"
-    t.string "description"
-    t.integer "estimated_minute"
-    t.integer "status", default: 0, null: false
-    t.bigint "step_id", null: false
-    t.bigint "time_slot_id", null: false
-    t.bigint "goal_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["goal_id"], name: "index_work_sessions_on_goal_id"
-    t.index ["step_id"], name: "index_work_sessions_on_step_id"
-    t.index ["time_slot_id"], name: "index_work_sessions_on_time_slot_id"
-  end
-
   add_foreign_key "goals", "users"
-  add_foreign_key "meetings", "users"
   add_foreign_key "sessions", "goals"
-  add_foreign_key "sessions", "steps"
-  add_foreign_key "sessions", "time_slots"
   add_foreign_key "steps", "goals"
+  add_foreign_key "steps", "sessions"
   add_foreign_key "time_slots", "goals"
-  add_foreign_key "work_sessions", "goals"
-  add_foreign_key "work_sessions", "steps"
-  add_foreign_key "work_sessions", "time_slots"
 end

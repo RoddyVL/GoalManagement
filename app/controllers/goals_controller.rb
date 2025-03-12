@@ -7,6 +7,7 @@ class GoalsController < ApplicationController
     @goal = Goal.new(goal_params)
     @goal.user = current_user
     if @goal.save
+      session = Session.create(goal: @goal)
       redirect_to new_goal_step_path(@goal)
     else
       render :new
