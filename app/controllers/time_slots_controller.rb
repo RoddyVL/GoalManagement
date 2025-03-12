@@ -18,10 +18,10 @@ class TimeSlotsController < ApplicationController
   end
 
   def generate_calendar
-    @steps = @goal.steps.order(:id)
-    @time_slots = @goal.time_slots.order(:day_of_week, :start_time)
-    total_times = @time_slots.map(&:total_time)
-    raise
+    # @steps = @goal.steps.order(:id)
+    # @time_slots = @goal.time_slots.order(:day_of_week, :start_time)
+    # total_times = @time_slots.map(&:total_time)
+    GeneratePlanningJob.perform_now(@goal.id)
     redirect_to goals_path, notice: "Génération du calendrier en cours..."
   end
 
