@@ -9,6 +9,7 @@ class StepsController < ApplicationController
   def create
     @step = Step.new(step_params)
     @step.goal = @goal
+    @step.session = @goal.sessions.first
     if @step.save
       redirect_to new_goal_step_path(@goal)
     else

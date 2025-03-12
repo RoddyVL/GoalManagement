@@ -7,14 +7,18 @@ class TimeSlot < ApplicationRecord
   validate :end_time_must_be_after_start_time
 
   enum day_of_week: {
-    lundi: 0,
-    mardi: 1,
-    mercredi: 2,
-    jeudi: 3,
-    vendredi: 4,
-    samedi: 5,
-    dimanche: 6
+   monday: 1,
+    Tuesday: 2,
+    Wednesday: 3,
+    Thursday: 4,
+    Friday: 5,
+    Saturday: 6,
+    Sunday: 0
   }, _prefix: true
+
+  def total_time
+    (end_time - start_time) / 60
+  end
 
   def end_time_must_be_after_start_time
     if end_time.present? && start_time.present? && end_time <= start_time
