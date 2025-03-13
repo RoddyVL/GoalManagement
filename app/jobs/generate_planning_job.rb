@@ -12,17 +12,20 @@ class GeneratePlanningJob < ApplicationJob
 
     # On récupère les instance de 'slot' que l'on transforme en array et qu'on classe par jour et heure
     time_slots = goal.time_slots.order(:day_of_week, :start_time).to_a
-    puts "time_slots#{time_slots}"
+    puts "time slots#{time_slots}"
 
     # On récupère soit la prochaine disponibilité du jour avec un start_time strictement supérieur. Sinon on récupère les autres jours de la semaine jusqu'à trouver le premier
+    # sinon on reparcours l'array depuis le début et on prend la premier objet qu'on trouve
     next_time_slot = time_slots.detect do |slot|
       (slot.day_of_week_before_type_cast == method_day && slot.start_time > method_date_and_time.time) || slot.day_of_week_before_type_cast > method_day
     end
 
-    puts "next_time_slot: #{next_time_slot.day_of_week_before_type_cast}"
+    next_time_slot = time_slots.first unless next_time_slot
+
+    puts "next_time_slot123: #{next_time_slot}"
 
     # On calcul le nombre de jour qu'il faut rajouter à method_date pour avoir la date qui correspond au 'slot"
-    day_to_add = next_time_slot.day_of_week_before_type_cast - method_day   # je vais garder cela pour le moment mais cette méthode est fragile et ne gère pas tout les cas
+    day_to_add = (next_time_slot.day_of_week_before_type_cast - method_day) % 7   # je vais garder cela pour le moment mais cette méthode est fragile et ne gère pas tout les cas
     puts "day_to_add: #{day_to_add}"
 
     new_date = method_date_and_time + day_to_add.days
@@ -34,7 +37,7 @@ class GeneratePlanningJob < ApplicationJob
 
     # On instancie 'session' avec cette 'date' le 'start_time' et le 'end_time' de 'slot'
     session = Session.create(start_time: start_datetime, end_time: end_datetime)
-
+    puts "session: #{session}"
     # on calcul sa durée totale ("total_time")
     # on lui assigne les steps du goal(goal.steps) tant que la somme de leur durée est inférieur ou égale au temps total disponible dans un time_slot
     steps = goal.steps.to_a
