@@ -2,9 +2,10 @@
   <% @goals.each do |goal| %>
     <h1 class='text-center'><%= goal.description %></h1>
   <% end %>
+
+  <ol class='mt-5'>
+    <% @steps.each do |step| %>
+      <li><%= step.description %></li>
+    <% end %>
+  </ol>
 </div>
-
-
-
-
-  

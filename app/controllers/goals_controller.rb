@@ -3,6 +3,17 @@ class GoalsController < ApplicationController
     @goal = Goal.new
   end
 
+  def index
+    @goals = current_user.goals
+    @current_day = Date.current
+
+    @sessions = @goals.flat_map(&:sessions)
+     # Vérifier si on a des sessions avant de filtrer
+    @today_sessions = @sessions.select { |session| session.start_time&.to_date == @current_day }
+    # @steps = @today_sessions.flat_map(&:steps)
+    @steps = Step.all
+  end
+
   def create
     @goal = Goal.new(goal_params)
     @goal.user = current_user
@@ -12,10 +23,6 @@ class GoalsController < ApplicationController
     else
       render :new
     end
-  end
-
-  def index
-    @goals = current_user.goals
   end
 
   private
