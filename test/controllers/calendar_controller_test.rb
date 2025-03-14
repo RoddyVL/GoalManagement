@@ -1,6 +1,6 @@
 require "test_helper"
 
-class CalendarsControllerTest < ActionDispatch::IntegrationTest
+class CalendarControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end
