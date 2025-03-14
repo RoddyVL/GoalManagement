@@ -1,0 +1,14 @@
+<div class="calendar-container">
+  <%= month_calendar(events: @sessions, end_attribute: :end_time) do |date, sessions| %>
+    <%= date %>
+
+    <% sessions.each do |session| %>
+      <div class="session">
+      <% session.steps.each do |step| %>
+        <p><%= step.description %></p>
+      <% end %>
+        <small><%= session.time unless session.multi_days? %></small>
+      </div>
+    <% end %>
+  <% end %>
+</div>
