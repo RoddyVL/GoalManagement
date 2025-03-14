@@ -17,6 +17,14 @@ class StepsController < ApplicationController
     end
   end
 
+  def toggle_status
+    step = Step.find(params[:id])
+    step.update(status: params[:status])
+    render json: { message: "Statut mis à jour", step: step }
+  end
+  
+  end
+
   private
 
   def set_goal

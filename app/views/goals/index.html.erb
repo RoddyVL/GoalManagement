@@ -3,9 +3,16 @@
     <h1 class='text-center'><%= goal.description %></h1>
   <% end %>
 
-  <ol class='mt-5'>
-    <% @steps.each do |step| %>
-      <li><%= step.description %></li>
-    <% end %>
-  </ol>
+  <div data-controller="step">
+  <% @steps.each do |step| %>
+    <div>
+      <%= check_box_tag "step_status", "1", step.status == 1,
+          class: "step-checkbox",
+          data: { step_target: "checkbox", step_id: step.id },
+          onclick: "this.closest('[data-controller]').controller.toggleStatus(event)" %>
+      <%= step.description %>
+    </div>
+  <% end %>
+</div>
+
 </div>

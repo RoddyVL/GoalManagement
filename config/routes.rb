@@ -14,7 +14,11 @@ Rails.application.routes.draw do
 
   resources :goals, only: %i[new create index] do
     resources :calendars, only: %i[index]
-    resources :steps, only: %i[new create]
+    resources :steps, only: %i[new create] do
+      member do
+        patch :toggle_status
+      end
+    end
     resources :time_slots, only: %i[new create] do
       collection do
         get :generate_calendar
