@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+  get 'calendars', to: 'calendar#index'
+
   resources :goals, only: %i[new create index] do
     resources :calendars, only: %i[index]
     resources :steps, only: %i[new create]
