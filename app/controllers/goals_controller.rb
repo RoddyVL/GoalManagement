@@ -9,8 +9,7 @@ class GoalsController < ApplicationController
     @sessions = @goals.flat_map(&:sessions)   # @goals.flat_map { |goal| goal.sessions }
      # Vérifier si on a des sessions avant de filtrer
     @today_sessions = @sessions.select { |session| session.start_time&.to_date == @current_day }
-    # @steps = @today_sessions.flat_map(&:steps)  @today_sessions.flat_map { |session| session.steps }
-    @steps = Step.all.order(:id)
+    @steps =  @today_sessions.flat_map { |session| session.steps.order(:id) }
   end
 
   def toggle_status

@@ -1,7 +1,7 @@
 <div class='container mt-5'>
- <h1 class= 'text-center'>les actions du jour</h1>
+ <h1 class= 'text-center'><%= @current_day.strftime("%A %d %B")%> : </h1>
 
-<div data-controller="step">
+<div data-controller="step", class= 'mt-5'>
   <% @steps.each do |step| %>
     <div class="form-check">
       <%= check_box_tag "step_status_#{step.id}", "1", step.status == 1,
