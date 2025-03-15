@@ -21,4 +21,11 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :steps, only: [] do
+    member do
+      patch :toggle_status
+    end
+  end
+
 end

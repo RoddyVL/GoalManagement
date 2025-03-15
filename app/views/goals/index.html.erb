@@ -1,10 +1,17 @@
 <div class='container mt-5'>
-  <% @goals.each do |goal| %>
-    <h1 class='text-center'><%= goal.description %></h1>
+ <h1 class= 'text-center'>les actions du jour</h1>
+
+<div data-controller="step">
+  <% @steps.each do |step| %>
+    <div class="form-check">
+      <%= check_box_tag "step_status_#{step.id}", "1", step.status == 1,
+          class: "form-check-input",
+          data: { action: "click->step#toggle", step_id: step.id } %>
+      <%= label_tag "step_status_#{step.id}", step.description, class: "form-check-label" %>
+    </div>
   <% end %>
 </div>
 
 
 
-
-  
+</div>

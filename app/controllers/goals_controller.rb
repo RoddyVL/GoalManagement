@@ -3,6 +3,26 @@ class GoalsController < ApplicationController
     @goal = Goal.new
   end
 
+  def index
+    @current_day = Date.current
+    @goals = current_user.goals
+    @sessions = @goals.flat_map(&:sessions)   # @goals.flat_map { |goal| goal.sessions }
+     # Vérifier si on a des sessions avant de filtrer
+    @today_sessions = @sessions.select { |session| session.start_time&.to_date == @current_day }
+    # @steps = @today_sessions.flat_map(&:steps)  @today_sessions.flat_map { |session| session.steps }
+    @steps = Step.all.order(:id)
+  end
+
+  def toggle_status
+    @step = Step.find(params[:id])
+    if @step.update(status: params[:status])
+      render json: { message: 'Statut mis à jour avec succès.' }, status: :ok
+    else
+      render json: { error: 'Erreur lors de la mise à jour du statut.' }, status: :unprocessable_entity
+    end
+  end
+
+
   def create
     @goal = Goal.new(goal_params)
     @goal.user = current_user
@@ -12,10 +32,6 @@ class GoalsController < ApplicationController
     else
       render :new
     end
-  end
-
-  def index
-    @goals = current_user.goals
   end
 
   private
