@@ -1,5 +1,5 @@
 class StepsController < ApplicationController
-  before_action :set_goal
+  before_action :set_goal, only: %i[new create]
 
   def new
     @step = Step.new
@@ -18,11 +18,12 @@ class StepsController < ApplicationController
   end
 
   def toggle_status
-    step = Step.find(params[:id])
-    step.update(status: params[:status])
-    render json: { message: "Statut mis à jour", step: step }
-  end
-  
+    @step = Step.find(params[:id])
+    if @step.update(status: params[:status])
+      render json: { message: 'Statut mis à jour avec succès.' }, status: :ok
+    else
+      render json: { error: 'Erreur lors de la mise à jour du statut.' }, status: :unprocessable_entity
+    end
   end
 
   private

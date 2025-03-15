@@ -1,25 +1,35 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["checkbox"];
+  static targets = ["checkbox"]
 
-  toggleStatus(event) {
-    const stepId = event.target.dataset.stepId; // Récupère l'ID du step
-    const checked = event.target.checked; // Vérifie si la case est cochée
-    const url = `/steps/${stepId}/toggle_status`;
+  toggle(event) {
+    const checkbox = event.target
+    const stepId = checkbox.dataset.stepId
+    const status = checkbox.checked ? 1 : 0
 
-    fetch(url, {
-      method: "PATCH",
+    // Envoi d'une requête PATCH pour mettre à jour le statut du step
+    fetch(`/steps/${stepId}/toggle_status`, {
+      method: 'PATCH',
       headers: {
-        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content,
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
       },
-      body: JSON.stringify({ status: checked ? 1 : 0 }) // Met à jour le statut
+      body: JSON.stringify({ status: status })
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Erreur lors de la mise à jour du statut.')
+      }
+      return response.json()
+    })
     .then(data => {
-      console.log("Step mis à jour:", data);
+      console.log('Statut mis à jour avec succès:', data)
     })
-    .catch(error => console.error("Erreur:", error));
+    .catch(error => {
+      console.error('Erreur:', error)
+      // Réinitialiser l'état de la checkbox en cas d'erreur
+      checkbox.checked = !checkbox.checked
+    })
   }
 }
