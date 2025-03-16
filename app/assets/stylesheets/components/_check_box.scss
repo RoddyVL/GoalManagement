@@ -1,0 +1,16 @@
+/* Exemple de personnalisation des cases à cocher */
+.form-check-input {
+  width: 25px;  /* Augmenter la taille de la checkbox */
+  height: 25px; /* Augmenter la taille de la checkbox */
+  border-radius: 5px; /* Arrondir les bords */
+  border: 2px solid #000000; /* Bordure bleue */
+}
+
+.form-check-input:checked {
+  background-color: #000000; /* Couleur de fond lorsqu'elle est cochée */
+  border-color: #000000; /* Couleur de la bordure lorsqu'elle est cochée */
+}
+
+label {
+  display: block !important;  /* Annule le 'inline-block' en appliquant le 'block' */
+}

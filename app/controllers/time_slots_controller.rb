@@ -2,7 +2,7 @@ class TimeSlotsController < ApplicationController
   before_action :set_goal
   def new
     @time_slot = TimeSlot.new
-    @time_slots = @goal.time_slots.order(:day_of_week, :start_time)
+    @time_slots = TimeSlot.all.order(:day_of_week, :start_time)
   end
 
   def create
