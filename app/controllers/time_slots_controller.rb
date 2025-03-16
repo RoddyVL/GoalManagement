@@ -11,6 +11,8 @@ class TimeSlotsController < ApplicationController
     if @time_slot.save
       redirect_to new_goal_time_slot_path(@goal)
     else
+      @time_slots = TimeSlot.all.order(:day_of_week, :start_time) # Réassigner @time_slots
+      flash.now[:alert] = @time_slot.errors.full_messages.to_sentence
       render :new, status: :unprocessable_entity
     end
   end
