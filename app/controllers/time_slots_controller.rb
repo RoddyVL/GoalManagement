@@ -2,7 +2,7 @@ class TimeSlotsController < ApplicationController
   before_action :set_goal
   def new
     @time_slot = TimeSlot.new
-    @time_slots = @goal.time_slots.order(:day_of_week, :start_time)
+    @time_slots = TimeSlot.all.order(:day_of_week, :start_time)
   end
 
   def create
@@ -11,13 +11,15 @@ class TimeSlotsController < ApplicationController
     if @time_slot.save
       redirect_to new_goal_time_slot_path(@goal)
     else
+      @time_slots = TimeSlot.all.order(:day_of_week, :start_time) # Réassigner @time_slots
+      flash.now[:alert] = @time_slot.errors.full_messages.to_sentence
       render :new, status: :unprocessable_entity
     end
   end
 
   def generate_calendar
-    GeneratePlanningJob.perform_now(@goal.id)
-    redirect_to goals_path, notice: "Génération du calendrier en cours..."
+    ReassignStepsJob.perform_now(@goal.id)
+    redirect_to calendars_path, notice: "Génération du calendrier en cours..."
   end
 
   private
