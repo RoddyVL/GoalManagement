@@ -63,5 +63,8 @@ class ReassignStepsJob < ApplicationJob
 
     puts "Nouvelles sessions créées : #{Session.where(goal_id: 2).where("end_time >= ?", Date.current).count}"
 
+    SolidQueue::Job.schedule(wait_until: Time.current.beginning_of_day + 1.day) do
+      ReassignStepsJob.perform_later
+    end
   end
 end

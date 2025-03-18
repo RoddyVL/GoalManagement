@@ -9,6 +9,7 @@
       <div data-controller="step" class='mt-4'>
         <div class="d-flex justify-content-center">
           <div>
+          <% if @steps.any?%>
             <% @steps.each do |step| %>
               <div class="form-check mb-3">
                 <%= check_box_tag "step_status_#{step.id}", "1", step.status == 1,
@@ -17,6 +18,9 @@
                 <%= label_tag "step_status_#{step.id}", step.description, class: "form-check-label ms-2" %>
               </div>
             <% end %>
+            <% else %>
+            <p>vous n'avez rien de prévu aujourd'hui</p>
+          <% end %>
           </div>
         </div>
       </div>
