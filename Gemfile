@@ -51,7 +51,7 @@ gem "font-awesome-sass", "~> 6.1"
 gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem "simple_calendar", "~> 2.4"
-
+gem "solid_queue"
 
 
 gem "simple_calendar", "~> 2.4"
