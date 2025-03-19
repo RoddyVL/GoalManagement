@@ -1,0 +1,8 @@
+<div class= 'container'>
+  <div class= 'grid'>
+    <% @steps.each do |step| %>
+      <p><%= step.description %></p>
+    <% end %>
+  </div>
+    <%= link_to 'home', root_path, class:'btn btn-outline-dark mb-5' %>
+</div>

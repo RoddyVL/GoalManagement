@@ -1,5 +1,10 @@
 class StepsController < ApplicationController
   before_action :set_goal, only: %i[new create]
+
+  def index
+    @steps = Step.all
+  end
+
   def new
     @step = Step.new
     @steps = @goal.steps

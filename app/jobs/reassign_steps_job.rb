@@ -2,69 +2,88 @@ class ReassignStepsJob < ApplicationJob
   queue_as :default
 
   def perform(goal_id)
-    today = Date.current
+    # on définis les variables nécessaires pour pouvoir execurer ce job
     goal = Goal.find(goal_id)
-    time_slots = goal.time_slots.order(:day_of_week, :start_time).to_a
-    reference_datetime = Time.current
-    reference_day = reference_datetime.wday
+    reference_date_and_time = Time.current
+    reference_day = reference_date_and_time.wday
+    time_slots = goal.time_slots.order(:day_of_week, :start_time).to_a     # On récupère les instance de 'time_slot' que l'on transforme en array et qu'on classe par jour et heure
 
-    # Récupérer les sessions passées qui contiennent des steps non complétés
-    past_sessions = goal.sessions.where("DATE(end_time) < ?", Date.current)
-    steps_to_assign = goal.steps.where(session: goal.sessions.first).or(goal.steps.where(session: nil))
-    steps_to_reassign = past_sessions.flat_map { |session| session.steps.where(status: 0) }.sort_by(&:id)
-    steps_to_reassign += steps_to_assign
-    future_sessions = goal.sessions.where("end_time >= ?", today).order(:start_time)
+    # On récupère tout les steps à réassinger(les steps incomplété des sessions passé + les steps futures afin de garder l'ordre de priorité)
+    # On récupère les futures sessions afin d'y assigné les steps
+    past_sessions = Session.where("end_time < ?", Time.current)
+    past_steps = past_sessions.flat_map { |session| session.steps.where(status: 0) }.sort_by(&:id)
+    future_sessions = Session.where("start_time >= ?", Time.current).to_a.sort_by(&:start_time)
+    future_steps = future_sessions.flat_map { |session| session.steps }.sort_by(&:id)
+    puts "past sessions: #{past_sessions.length}"
+    puts "past steps: #{past_steps.length}"
+    puts "future sessions: #{future_sessions.length}"
+    puts "future steps: #{future_steps.length}"
+    if past_steps.any? #si on ne trouve pas de past_step avec un status 0, on interomp le job car il n'y a rien à réassigner
+      steps_to_reassign = (past_steps + future_steps).sort_by(&:id)
+    else
+      steps_to_reassign = []
+    end
+    puts "steps to reassing: #{steps_to_reassign.length}"
 
-    # Assigner les steps aux sessions futures
-    future_sessions&.each do |session|
-      steps_total_time = 0
-      while steps_to_reassign.any? && (steps_total_time + steps_to_reassign.first.estimated_minute) <= session.total_time
-        step = steps_to_reassign.shift
-        step.update!(session_id: session.id)
-        puts "Step #{step.id} réassigné à la session #{session.id}"
-        steps_total_time += step.estimated_minute
+
+
+    # jusqu'à ce qu'il n'y ai plus de 'steps à réassinger', si il y a des 'futures sessions', on va assigner les 'steps' à une 'session' tant que la somme de leur durée est inférieur au temps totale disponible
+    until steps_to_reassign.empty?
+      if future_sessions.any?
+        future_sessions.each do |session|
+          steps_total_time = 0
+          while steps_total_time < session.total_time
+            step = steps_to_reassign.shift
+            step.update(session: session)
+            steps_total_time += step.estimated_minute
+            puts "step total time: #{steps_total_time} - session total time: #{session.total_time}"
+          end
+          future_sessions.shift
+          puts "future session: #{future_sessions.length}"
+        end
+      else
+        while steps_to_reassign.any?
+           # 1. On récupère la prochaine disponibilité dans 'time_slots'
+          reference_date_and_time =  Session.all.sort_by(&:start_time).last.end_time
+          reference_day = reference_date_and_time.wday # on prend le 'end_time' de la dernière session comme date de référence.
+          next_time_slot = time_slots.detect do |slot|
+            (slot.day_of_week_before_type_cast == reference_day && slot.start_time > reference_date_and_time.time) || slot.day_of_week_before_type_cast > reference_day
+          end
+          next_time_slot = time_slots.first unless next_time_slot
+          puts "next_time_slot: #{next_time_slot}"
+
+          # 2. on convertit le slot en une date et heure exploitable pour instancier une session
+          day_to_add = (next_time_slot.day_of_week_before_type_cast - reference_day) % 7       # On calcul le nombre de jour qu'il faut rajouter à reference_date pour avoir la date qui correspond au 'slot"
+          puts "day_to_add: #{day_to_add}"
+
+          session_date = reference_date_and_time + day_to_add.days    # on définis la date de la session
+          start_datetime = session_date.change(hour: next_time_slot.start_time.hour, min: next_time_slot.start_time.min)  # on définit le 'start_time' et le end_time de la session
+          end_datetime = session_date.change(hour: next_time_slot.end_time.hour, min: next_time_slot.end_time.min)
+          puts "session date: #{session_date}"
+          puts "start datetime #{start_datetime}"
+          puts "end datetime #{end_datetime}"
+
+          # 3. On instancie une 'session' avec ses attributs
+          puts "create session"
+          session = Session.create(start_time: start_datetime, end_time: end_datetime, goal: goal)
+          puts "session: #{session.start_time} - #{session.end_time}"
+
+            # 4. on assigne des steps à la session tant que la somme de leur durée est inférieur ou égale à la durée de la session
+          steps_total_time = 0
+          while steps_total_time <= session.total_time && steps_to_reassign.any?
+            step = steps_to_reassign.shift
+            step.update(session: session)
+            steps_total_time += step.estimated_minute
+            puts "step total time: #{steps_total_time} - session total time: #{session.total_time}"
+          end
+
+          # 5. on réassigne ses valeurs pour la prochaine itération
+          reference_date_and_time = session.end_time
+          reference_day = reference_date_and_time.wday
+          puts "new reference datetime: #{reference_date_and_time} - #{reference_day}"
+        end
       end
     end
 
-    # Créer des nouvelles sessions si nécessaire
-    while steps_to_reassign.any?
-      next_time_slot = time_slots.detect do |slot|
-        (slot.day_of_week == reference_day && slot.start_time > reference_datetime.time) || slot.day_of_week > reference_day
-      end
-      next_time_slot ||= time_slots.first
-
-      unless next_time_slot
-        Rails.logger.info "Erreur : Aucun créneau disponible"
-        break
-      end
-
-      day_to_add = (next_time_slot.day_of_week - reference_day) % 7
-      session_date = reference_datetime + day_to_add.days
-      start_datetime = session_date.change(hour: next_time_slot.start_time.hour, min: next_time_slot.start_time.min)
-      end_datetime = session_date.change(hour: next_time_slot.end_time.hour, min: next_time_slot.end_time.min)
-
-      session = Session.create(start_time: start_datetime, end_time: end_datetime, goal: goal)
-      unless session.persisted?
-        Rails.logger.info "Erreur : impossible de créer la session"
-        break
-      end
-
-      # assigner les steps aux nouvelles sessions
-      steps_total_time = 0
-      while steps_to_reassign.any? && (steps_total_time + steps_to_reassign.first.estimated_minute) <= session.total_time
-        step = steps_to_reassign.shift
-        step.update!(session: session)
-        steps_total_time += step.estimated_minute
-      end
-
-      reference_datetime = session.end_time
-      reference_day = reference_datetime.wday
-    end
-
-    puts "Nouvelles sessions créées : #{Session.where(goal_id: 2).where("end_time >= ?", Date.current).count}"
-
-    SolidQueue::Job.schedule(wait_until: Time.current.beginning_of_day + 1.day) do
-      ReassignStepsJob.perform_later
-    end
   end
 end

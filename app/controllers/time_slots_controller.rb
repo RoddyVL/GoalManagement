@@ -18,7 +18,7 @@ class TimeSlotsController < ApplicationController
   end
 
   def generate_calendar
-    ReassignStepsJob.perform_now(@goal.id)
+   GeneratePlanningJob.perform_now(@goal.id)
     redirect_to calendars_path, notice: "Génération du calendrier en cours..."
   end
 

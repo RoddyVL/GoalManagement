@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :steps, only: [] do
+  resources :steps, only: [:index] do
     member do
       patch :toggle_status
     end
