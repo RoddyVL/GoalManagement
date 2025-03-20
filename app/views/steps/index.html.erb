@@ -1,8 +1,28 @@
-<div class= 'container'>
-  <div class= 'grid'>
-    <% @steps.each do |step| %>
-      <p><%= step.description %></p>
-    <% end %>
-  </div>
-    <%= link_to 'home', root_path, class:'btn btn-outline-dark mb-5' %>
+<div class="container mt-2">
+  <% @goals.each do |goal| %>
+    <h1><%= goal.description %></h1>
+    <table class="table table-bordered table-striped"> <!-- Tableau Bootstrap -->
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Durée estimée (minutes)</th>
+          <th>Priorité</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @steps.each do |step| %>
+          <tr>
+            <td><%= step.description %></td>
+            <td><%= step.estimated_minute %></td>
+            <td><%= step.priority %></td>
+            <td>
+              <%= button_to "↑", move_up_step_path(step), method: :patch, class: "btn btn-sm btn-primary", data: {turbo: false} %>
+              <%= button_to "↓", move_down_step_path(step), method: :patch, class: "btn btn-sm btn-secondary", data: {turbo: false}%>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
 </div>
