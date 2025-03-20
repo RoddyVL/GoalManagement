@@ -22,6 +22,7 @@ class StepsController < ApplicationController
     if @step.save
       redirect_to new_goal_step_path(@goal)
     else
+      @steps = @goal.steps.order(:priority)
       render :new, status: :unprocessable_entity
     end
   end
