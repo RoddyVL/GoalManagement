@@ -8,15 +8,7 @@
     <%= f.submit 'ajouter une étape', class: 'btn btn-outline-dark' %>
   <% end %>
 
-  <div class='mt-5'>
-    <% if @steps&.any? %>
-        <ol>
-      <% @steps.each do |step| %>
-          <li class='my-2'><%= "#{step.description} - #{step.estimated_minute} min" %></li>
-      <% end %>
-        </ol>
-    <% end %>
-  </div>
+  <%= render 'new_list', steps: @steps if @steps&.any? %>
 
   <%= link_to 'étape suivante', new_goal_time_slot_path(@goal), class: 'btn btn-outline-primary mb-5' %>
 
