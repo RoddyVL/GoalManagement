@@ -1,6 +1,7 @@
 class StepsController < ApplicationController
   before_action :set_goal, only: %i[new create]
   before_action :set_step, only: %i[move_up move_down]
+  before_action :set_goals, only: %i[move_up move_down]
 
   def index
     @goals = current_user.goals
@@ -37,19 +38,27 @@ class StepsController < ApplicationController
   def move_up
     previous_step = @step.goal.steps.where("priority < ?", @step.priority).order(priority: :desc).first
     swap_priorities(@step, previous_step) if previous_step
-    redirect_to steps_path
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("steps_list", partial: "steps/list", locals: { steps: @step.goal.steps.order(:priority), goals: @goals }) }
+    end
   end
 
   def move_down
     next_step = @step.goal.steps.where("priority > ?", @step.priority).order(priority: :asc).first
     swap_priorities(@step, next_step) if next_step
-    redirect_to steps_path
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("steps_list", partial: "steps/list", locals: { steps: @step.goal.steps.order(:priority), goals: @goals }) }
+    end
   end
 
   private
 
   def set_goal
     @goal = Goal.find(params[:goal_id])
+  end
+
+  def set_goals
+    @goals = current_user.goals
   end
 
   def step_params
