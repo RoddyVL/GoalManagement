@@ -27,6 +27,26 @@ class StepsController < ApplicationController
     end
   end
 
+  def edit
+    @step = Step.find(params[:id])
+  end
+
+  def update
+    @step = Step.find(params[:id])
+    if @step.update(step_params)
+      redirect_to new_goal_step_path(@step.goal), notice: "Étape mise à jour avec succès."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @step = Step.find(params[:id])
+    @step.destroy
+    redirect_to new_goal_step_path(@step.goal), notice: "Étape supprimée avec succès."
+  end
+
+
   def toggle_status
     @step = Step.find(params[:id])
     if @step.update(status: params[:status])
