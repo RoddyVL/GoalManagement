@@ -1,4 +1,4 @@
-<div id="steps_list">
+<div id="steps_new_list">
   <table class="table table-bordered table-striped"> <!-- Tableau Bootstrap -->
     <thead>
       <tr>
@@ -15,8 +15,8 @@
           <td><%= step.estimated_minute %></td>
           <td><%= step.priority %></td>
           <td>
-            <%= button_to "↑", move_up_step_path(step), method: :patch, class: "btn btn-sm btn-primary" %>
-            <%= button_to "↓", move_down_step_path(step), method: :patch, class: "btn btn-sm btn-secondary"%>
+            <%= button_to "↑", move_up_new_step_path(step), method: :patch, class: "btn btn-sm btn-primary" %>
+            <%= button_to "↓", move_down_new_step_path(step), method: :patch, class: "btn btn-sm btn-secondary"%>
           </td>
           <td>
             <%= link_to "Modifier", edit_step_path(step), class: "btn btn-sm btn-warning" %>

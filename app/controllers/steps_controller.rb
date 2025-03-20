@@ -1,7 +1,7 @@
 class StepsController < ApplicationController
   before_action :set_goal, only: %i[new create]
-  before_action :set_step, only: %i[move_up move_down]
-  before_action :set_goals, only: %i[move_up move_down]
+  before_action :set_step, only: %i[move_up move_down move_up_new move_down_new]
+  before_action :set_goals, only: %i[move_up move_down move_up_new move_down_new]
 
   def index
     @goals = current_user.goals
@@ -69,6 +69,22 @@ class StepsController < ApplicationController
     swap_priorities(@step, next_step) if next_step
     respond_to do |format|
       format.turbo_stream { render turbo_stream: turbo_stream.replace("steps_list", partial: "steps/list", locals: { steps: @step.goal.steps.order(:priority), goals: @goals }) }
+    end
+  end
+
+  def move_up_new
+    previous_step = @step.goal.steps.where("priority < ?", @step.priority).order(priority: :desc).first
+    swap_priorities(@step, previous_step) if previous_step
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("steps_new_list", partial: "steps/new_list", locals: { steps: @step.goal.steps.order(:priority), goals: @goals }) }
+    end
+  end
+
+  def move_down_new
+    next_step = @step.goal.steps.where("priority > ?", @step.priority).order(priority: :asc).first
+    swap_priorities(@step, next_step) if next_step
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("steps_new_list", partial: "steps/new_list", locals: { steps: @step.goal.steps.order(:priority), goals: @goals }) }
     end
   end
 
