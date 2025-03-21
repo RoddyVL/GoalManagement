@@ -27,6 +27,8 @@ Rails.application.routes.draw do
       patch :toggle_status
       patch :move_up
       patch :move_down
+      patch :move_up_new
+      patch :move_down_new
     end
   end
 end

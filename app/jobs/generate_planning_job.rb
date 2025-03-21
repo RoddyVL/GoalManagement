@@ -10,7 +10,7 @@ class GeneratePlanningJob < ApplicationJob
     steps_to_assign = steps_to_assign.order(:id).to_a
     reference_date_and_time = Time.current #on récupère le jour et l'heure à partir de laquelle on cherchera la prochaine disponibilité
     reference_day = reference_date_and_time.wday
-    puts "goal: #{goal}"
+    puts "goal: #{goal.description}"
     puts "time slots#{time_slots}"
     puts "step to assign: #{steps_to_assign}"
     puts "reference date and time: #{reference_date_and_time}"
@@ -24,7 +24,7 @@ class GeneratePlanningJob < ApplicationJob
         (slot.day_of_week_before_type_cast == reference_day && slot.start_time > reference_date_and_time.time) || slot.day_of_week_before_type_cast > reference_day
       end
       next_time_slot = time_slots.first unless next_time_slot
-      puts "next_time_slot: #{next_time_slot.date}"
+      puts "next_time_slot: #{next_time_slot}"
 
       # 2. on convertit le slot en une date et heure exploitable pour instancier une session
       day_to_add = (next_time_slot.day_of_week_before_type_cast - reference_day) % 7       # On calcul le nombre de jour qu'il faut rajouter à reference_date pour avoir la date qui correspond au 'slot"
