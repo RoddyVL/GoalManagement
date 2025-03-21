@@ -5,11 +5,12 @@
         <th>Description</th>
         <th>Durée estimée (minutes)</th>
         <th>Priorité</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <% steps.each do |step| %>
-        <tr>
+        <tr id="<%= dom_id(step) %>">
           <td><%= step.description %></td>
           <td><%= step.estimated_minute %></td>
           <td><%= step.priority %></td>
@@ -18,8 +19,13 @@
             <%= button_to "↓", move_down_new_step_path(step), method: :patch, class: "btn btn-sm btn-secondary"%>
           </td>
           <td>
-            <%= link_to "Modifier", edit_step_path(step), class: "btn btn-sm btn-warning" %>
-            <%= button_to "Supprimer", step_path(step), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "Voulez-vous vraiment supprimer cette étape ?" } %>
+            <%= link_to edit_step_path(step) do %>
+              <i class="bi bi-pencil"></i>
+            <% end %>
+
+            <%= button_to step_path(step), class: "border-0 p-0", method: :delete, data: { confirm: "Voulez-vous vraiment supprimer cette étape ?" } do %>
+              <i class="bi bi-trash"></i>
+            <% end %>
           </td>
         </tr>
       <% end %>
