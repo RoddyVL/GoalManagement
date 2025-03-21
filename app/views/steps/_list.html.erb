@@ -8,7 +8,6 @@
             <th>Description</th>
             <th>Durée estimée (minutes)</th>
             <th>Priorité</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -17,14 +16,6 @@
               <td><%= step.description %></td>
               <td><%= step.estimated_minute %></td>
               <td><%= step.priority %></td>
-              <td>
-                <%= button_to "↑", move_up_step_path(step), method: :patch, class: "btn btn-sm btn-primary" %>
-                <%= button_to "↓", move_down_step_path(step), method: :patch, class: "btn btn-sm btn-secondary"%>
-              </td>
-              <td>
-                <%= link_to "Modifier", edit_step_path(step), class: "btn btn-sm btn-warning" %>
-                <%= button_to "Supprimer", step_path(step), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "Voulez-vous vraiment supprimer cette étape ?" } %>
-              </td>
             </tr>
           <% end %>
         </tbody>
