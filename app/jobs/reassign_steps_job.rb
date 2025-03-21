@@ -4,7 +4,11 @@ class ReassignStepsJob < ApplicationJob
   def perform(goal_id)
     # on définis les variables nécessaires pour pouvoir execurer ce job
     goal = Goal.find(goal_id)
-    reference_date_and_time = Time.current
+    if goal.sessions.last.end_time < Time.current
+      reference_date_and_time = Time.current
+    else
+      reference_date_and_time = goal.sessions.order(:start_time).last.end_time
+    end
     reference_day = reference_date_and_time.wday
     time_slots = goal.time_slots.order(:day_of_week, :start_time).to_a     # On récupère les instance de 'time_slot' que l'on transforme en array et qu'on classe par jour et heure
 
@@ -43,9 +47,6 @@ class ReassignStepsJob < ApplicationJob
         end
       else
         while steps_to_reassign.any?
-           # 1. On récupère la prochaine disponibilité dans 'time_slots'
-          reference_date_and_time =  Session.all.sort_by(&:start_time).last.end_time
-          reference_day = reference_date_and_time.wday # on prend le 'end_time' de la dernière session comme date de référence.
           next_time_slot = time_slots.detect do |slot|
             (slot.day_of_week_before_type_cast == reference_day && slot.start_time > reference_date_and_time.time) || slot.day_of_week_before_type_cast > reference_day
           end
@@ -81,6 +82,9 @@ class ReassignStepsJob < ApplicationJob
           reference_date_and_time = session.end_time
           reference_day = reference_date_and_time.wday
           puts "new reference datetime: #{reference_date_and_time} - #{reference_day}"
+
+           # on planifie la réassignation automatique des steps chaque jour à 00:01
+          ReassignStepsJob.set(wait_until: Time.current.beginning_of_day + 1.day).perform_later
         end
       end
     end
