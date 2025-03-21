@@ -57,5 +57,7 @@ class GeneratePlanningJob < ApplicationJob
       puts "new reference datetime: #{reference_date_and_time} - #{reference_day}"
 
     end
+    # on planifie la réassignation automatique des steps chaque jour à 00:01
+    ReassignStepsJob.set(wait_until: Time.current.beginning_of_day + 1.day).perform_later
   end
 end
