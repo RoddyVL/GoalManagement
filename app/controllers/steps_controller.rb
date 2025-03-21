@@ -43,7 +43,14 @@ class StepsController < ApplicationController
   def destroy
     @step = Step.find(params[:id])
     @step.destroy
-    redirect_to new_goal_step_path(@step.goal), notice: "Étape supprimée avec succès."
+
+    respond_to do |format|
+      format.html { redirect_to request.referer || new_goal_step_path(@step.goal) }
+      format.turbo_stream do
+        # Supprime simplement l'élément de la page
+        render turbo_stream: turbo_stream.remove(@step)
+      end
+    end
   end
 
 
