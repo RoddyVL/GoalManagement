@@ -1,0 +1,6 @@
+<div class='container'>
+  <h1 class='text-center my-5'><%= @goal.description %></h1>
+  <%= render 'list', steps: @steps, goal: @goal %>
+  <h2 class='text-center my-5'>Créneaux pour cet objectif: </h2>
+  <%= render 'time_slots/slots', time_slots: @time_slots %>
+</div>

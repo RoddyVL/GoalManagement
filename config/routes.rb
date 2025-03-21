@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   get 'calendars', to: 'calendar#index'
 
-  resources :goals, only: %i[new create index] do
+  resources :goals, only: %i[new create index show] do
     resources :calendars, only: %i[index]
     resources :steps, only: %i[new create edit update destroy]
     resources :time_slots, only: %i[new create] do
@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :steps, only: %i[index edit update destroy] do
+  resources :steps, only: %i[edit update destroy] do
     member do
       patch :toggle_status
       patch :move_up

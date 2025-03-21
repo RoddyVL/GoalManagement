@@ -1,6 +1,8 @@
 class GoalsController < ApplicationController
   def new
     @goal = Goal.new
+    @steps = @goal.steps
+    raise
   end
 
   def index
@@ -11,6 +13,12 @@ class GoalsController < ApplicationController
     @today_sessions = @sessions.select { |session| session.start_time&.to_date == @current_day }
     # @steps = @today_sessions.steps
     @steps =  @today_sessions.flat_map { |session| session.steps.order(:id) }
+  end
+
+  def show
+    @goal = Goal.find(params[:id])
+    @steps = @goal.steps
+    @time_slots = @goal.time_slots
   end
 
   def toggle_status
