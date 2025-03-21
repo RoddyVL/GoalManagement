@@ -3,11 +3,6 @@ class StepsController < ApplicationController
   before_action :set_step, only: %i[move_up move_down move_up_new move_down_new]
   before_action :set_goals, only: %i[move_up move_down move_up_new move_down_new]
 
-  def index
-    @goals = current_user.goals
-    @steps = @goals.flat_map(&:steps).sort_by(&:priority)
-  end
-
   def new
     @step = Step.new
     @steps = @goal.steps.order(:priority)
