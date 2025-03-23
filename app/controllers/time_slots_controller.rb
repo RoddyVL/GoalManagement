@@ -9,12 +9,30 @@ class TimeSlotsController < ApplicationController
     @time_slot = TimeSlot.new(time_slot_params)
     @time_slot.goal = @goal
     if @time_slot.save
-      redirect_to new_goal_time_slot_path(@goal)
+      redirect_to request.referer
     else
       @time_slots = TimeSlot.all.order(:day_of_week, :start_time) # Réassigner @time_slots
       flash.now[:alert] = @time_slot.errors.full_messages.to_sentence
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @time_slot = TimeSlot.find(params[:id])
+    @time_slot.destroy
+
+    respond_to do |format|
+      format.html { redirect_to request.referer || new_goal_time_slot_path(@goal) }
+      format.turbo_stream do
+        # Supprime simplement l'élément de la page
+        render turbo_stream: turbo_stream.remove(@time_slot)
+      end
+    end
+  end
+
+  def index
+    @time_slots = @goal.time_slots
+    @time_slot = TimeSlot.new
   end
 
   def generate_calendar
