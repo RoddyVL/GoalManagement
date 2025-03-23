@@ -12,7 +12,7 @@ class RedefineSlotsJob < ApplicationJob
     sessions_to_delete = sessions.where.not("EXTRACT(DOW FROM start_time) IN (?)", slots)
     puts "session to delete: #{sessions_to_delete} - #{sessions_to_delete.length}"
     sessions_to_delete.destroy_all if sessions_to_delete.any?
-    steps_without_session = Step.where(session: nil).t
+    steps_without_session = Step.where(session: nil).to_a
     puts "steps without session: #{steps_without_session} - #{steps_without_session.to_a.length}"
     future_sessions = Session.where("start_time >= ?", Time.current).to_a.sort_by(&:start_time)
     future_steps = future_sessions.flat_map { |session| session.steps }.sort_by(&:priority)
