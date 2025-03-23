@@ -15,7 +15,7 @@ class ReassignAfterUpdateJob < ApplicationJob
     # On récupère tout les steps à réassinger tout les steps planifiés pour aujourd'hui ou dans le future
     # On récupère les futures sessions afin d'y assigné les steps
     future_sessions = Session.where("start_time >= ?", Time.current).to_a.sort_by(&:start_time)
-    future_steps = future_sessions.flat_map { |session| session.steps }.sort_by(&:id)
+    future_steps = future_sessions.flat_map { |session| session.steps }.sort_by(&:priority)
     step_to_assign =  Step.where(session: nil)
     puts "step to assign: #{step_to_assign.length}"
     steps_to_reassign = future_steps + step_to_assign
