@@ -1,8 +1,9 @@
 class GoalsController < ApplicationController
+  before_action :set_goal_and_steps, only: %i[show edit reassign]
+
   def new
     @goal = Goal.new
-    @steps = @goal.steps
-    raise
+    @steps = @goal.steps.order(:priority)
   end
 
   def index
@@ -16,8 +17,6 @@ class GoalsController < ApplicationController
   end
 
   def show
-    @goal = Goal.find(params[:id])
-    @steps = @goal.steps
     @time_slots = @goal.time_slots
   end
 
@@ -42,7 +41,21 @@ class GoalsController < ApplicationController
     end
   end
 
+  def edit
+    @step = Step.new
+  end
+
+  def reassign
+    ReassignAfterUpdateJob.perform_now(@goal.id)
+    redirect_to goals_path
+  end
+
   private
+
+  def set_goal_and_steps
+    @goal = Goal.find(params[:id])
+    @steps = @goal.steps.order(:priority)
+  end
 
   def goal_params
     params.require(:goal).permit(:description)

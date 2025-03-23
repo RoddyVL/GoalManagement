@@ -15,7 +15,7 @@ class StepsController < ApplicationController
     @step.session = @goal.sessions.first
     @step.priority = last_priority + 1
     if @step.save
-      redirect_to new_goal_step_path(@goal)
+      redirect_to request.referer
     else
       @steps = @goal.steps.order(:priority)
       render :new, status: :unprocessable_entity

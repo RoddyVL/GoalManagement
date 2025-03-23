@@ -1,4 +1,4 @@
-class ReassignStepsJob < ApplicationJob
+class ReassignAfterUpdateJob < ApplicationJob
   queue_as :default
 
   def perform(goal_id)
@@ -12,22 +12,15 @@ class ReassignStepsJob < ApplicationJob
     reference_day = reference_date_and_time.wday
     time_slots = goal.time_slots.order(:day_of_week, :start_time).to_a     # On récupère les instance de 'time_slot' que l'on transforme en array et qu'on classe par jour et heure
 
-    # On récupère tout les steps à réassinger(les steps incomplété des sessions passé + les steps futures afin de garder l'ordre de priorité)
+    # On récupère tout les steps à réassinger tout les steps planifiés pour aujourd'hui ou dans le future
     # On récupère les futures sessions afin d'y assigné les steps
-    past_sessions = Session.where("end_time < ?", Time.current)
-    past_steps = past_sessions.flat_map { |session| session.steps.where(status: 0) }.sort_by(&:id)
     future_sessions = Session.where("start_time >= ?", Time.current).to_a.sort_by(&:start_time)
     future_steps = future_sessions.flat_map { |session| session.steps }.sort_by(&:id)
-    puts "past sessions: #{past_sessions.length}"
-    puts "past steps: #{past_steps.length}"
+    steps_to_reassign = future_steps
     puts "future sessions: #{future_sessions.length}"
     puts "future steps: #{future_steps.length}"
-    if past_steps.any? #si on ne trouve pas de past_step avec un status 0, on interomp le job car il n'y a rien à réassigner
-      steps_to_reassign = (past_steps + future_steps).sort_by(&:id)
-    else
-      steps_to_reassign = []
-    end
-    puts "steps to reassing: #{steps_to_reassign.length}"
+
+
 
 
 
@@ -83,7 +76,7 @@ class ReassignStepsJob < ApplicationJob
           reference_day = reference_date_and_time.wday
           puts "new reference datetime: #{reference_date_and_time} - #{reference_day}"
 
-           # on planifie la réassignation automatique des steps chaque jour à 00:01
+            # on planifie la réassignation automatique des steps chaque jour à 00:01
           ReassignStepsJob.set(wait_until: Time.current.beginning_of_day + 1.day).perform_later
         end
       end
