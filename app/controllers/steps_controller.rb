@@ -12,7 +12,6 @@ class StepsController < ApplicationController
     last_priority = @goal.steps.maximum(:priority) || 0 # Récupérer la dernière priorité
     @step = Step.new(step_params)
     @step.goal = @goal
-    @step.session = @goal.sessions.first
     @step.priority = last_priority + 1
     if @step.save
       redirect_to request.referer

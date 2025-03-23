@@ -2,8 +2,11 @@
 
   <!-- Card contenant les steps -->
   <div class="card">
-    <div class="card-header">
-      <h1 class='text-center mb-4'><%= @current_day.strftime("%A %d %B") %>:</h1>
+    <div class="card-header text-center">
+      <h1 class=' mb-4'><%= @current_day.strftime("%A %d %B") %>:</h1>
+      <% @today_sessions.each do |session| %>
+        <h2><%= session.start_time.strftime("%H:%M") %> - <%= - session.end_time.strftime("%H:%M") %></h2>
+      <% end %>
     </div>
     <div class="card-body">
       <div data-controller="step" class='mt-4'>
@@ -15,7 +18,7 @@
                 <%= check_box_tag "step_status_#{step.id}", "1", step.status == 1,
                     class: "form-check-input form-check-lg",
                     data: { action: "click->step#toggle", step_id: step.id } %>
-                <%= label_tag "step_status_#{step.id}", step.description, class: "form-check-label ms-2" %>
+                <%= label_tag "step_status_#{step.id}", "#{step.description} (#{step.estimated_minute} min)", class: "form-check-label ms-2" %>
               </div>
             <% end %>
             <% else %>

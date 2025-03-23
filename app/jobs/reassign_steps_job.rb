@@ -36,7 +36,7 @@ class ReassignStepsJob < ApplicationJob
       if future_sessions.any?
         future_sessions.each do |session|
           steps_total_time = 0
-          while steps_total_time < session.total_time
+          while steps_total_time < session.total_time && steps_to_reassign.any?
             step = steps_to_reassign.shift
             step.update(session: session)
             steps_total_time += step.estimated_minute
