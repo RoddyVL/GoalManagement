@@ -40,6 +40,11 @@ class TimeSlotsController < ApplicationController
     redirect_to calendars_path, notice: "Génération du calendrier en cours..."
   end
 
+  def redefine_slots
+    RedefineSlotsJob.perform_now(@goal.id)
+    redirect_to goals_path
+  end
+
   private
 
   def set_goal

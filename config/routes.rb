@@ -22,6 +22,9 @@ Rails.application.routes.draw do
       collection do
         get :generate_calendar
       end
+      collection do
+        get :redefine_slots
+      end
     end
   end
 
