@@ -1,35 +1,31 @@
-class ReassignAfterUpdateJob < ApplicationJob
+class RedefineSlotsJob < ApplicationJob
   queue_as :default
 
   def perform(goal_id)
-    # on définis les variables nécessaires pour pouvoir execurer ce job
+    # On récupère toutes les données nécessaire pour faire fonctionner l'algorithme
     goal = Goal.find(goal_id)
-    if goal.sessions.order(:start_time).last.end_time < Time.current
-      reference_date_and_time = Time.current
-    else
-      reference_date_and_time = goal.sessions.order(:start_time).last.end_time
+    puts "goal: #{goal.description}"
+    slots = TimeSlot.all.map(&:day_of_week_before_type_cast)
+    puts "slots: #{slots} - #{slots.length}"
+    sessions = Session.where("start_time >= ?", Time.current)
+    puts "sessions: #{sessions} - #{sessions.length}"
+    sessions_to_delete = sessions.where.not("EXTRACT(DOW FROM start_time) IN (?)", slots)
+    puts "session to delete: #{sessions_to_delete} - #{sessions_to_delete.length}"
+    sessions_to_delete.destroy_all if sessions_to_delete.any?
+    steps_without_session = sessions.flat_map do |session|
+      session.steps.where(status: nil).to_a
     end
-    reference_day = reference_date_and_time.wday
-    time_slots = goal.time_slots.order(:day_of_week, :start_time).to_a     # On récupère les instance de 'time_slot' que l'on transforme en array et qu'on classe par jour et heure
-
-    # On récupère tout les steps à réassinger tout les steps planifiés pour aujourd'hui ou dans le future
-    # On récupère les futures sessions afin d'y assigné les steps
+    puts "steps without session: #{steps_without_session.length}"
     future_sessions = Session.where("start_time >= ?", Time.current).to_a.sort_by(&:start_time)
     future_steps = future_sessions.flat_map { |session| session.steps }.sort_by(&:id)
-    step_to_assign =  Step.where(session: nil)
-    puts "step to assign: #{step_to_assign.length}"
-    steps_to_reassign = future_steps + step_to_assign
     puts "future sessions: #{future_sessions.length}"
     puts "future steps: #{future_steps.length}"
-    puts Step.where(status: 0).length
+    steps_to_reassign = steps_without_session + future_steps
     puts "steps to reassign: #{steps_to_reassign.length}"
 
-
-
-
-
-    # jusqu'à ce qu'il n'y ai plus de 'steps à réassinger', si il y a des 'futures sessions', on va assigner les 'steps' à une 'session' tant que la somme de leur durée est inférieur au temps totale disponible
-    unless steps_to_reassign.empty?
+    # On lance l'algorithme
+     # jusqu'à ce qu'il n'y ai plus de 'steps à réassinger', si il y a des 'futures sessions', on va assigner les 'steps' à une 'session' tant que la somme de leur durée est inférieur au temps totale disponible
+     unless steps_to_reassign.empty?
       if future_sessions.any?
         future_sessions.each do |session|
           steps_total_time = 0
@@ -82,6 +78,5 @@ class ReassignAfterUpdateJob < ApplicationJob
         end
       end
     end
-
   end
 end
