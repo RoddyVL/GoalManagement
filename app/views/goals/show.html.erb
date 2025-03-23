@@ -9,6 +9,6 @@
   <h2 class='text-center my-5'>Créneaux pour cet objectif: </h2>
   <%= render 'goal_slots', time_slots: @time_slots %>
   <div class=' d-flex justify-content-center'>
-    <%= link_to "modifier mes disponibilités", "#", class:'btn btn-outline-dark my-3' %>
+    <%= link_to "modifier mes disponibilités", goal_time_slots_path(@goal), class:'btn btn-outline-dark my-3' %>
   </div>
 </div>
