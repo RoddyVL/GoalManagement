@@ -1,7 +1,7 @@
 <div id="steps_new_list">
   <table class="table table-bordered table-striped"> <!-- Tableau Bootstrap -->
     <thead>
-      <tr>
+      <tr class='table-dark'>
         <th>Description</th>
         <th>Durée estimée (minutes)</th>
         <th>Priorité</th>
@@ -10,7 +10,7 @@
     </thead>
     <tbody>
       <% steps.each do |step| %>
-        <tr id="<%= dom_id(step) %>">
+        <tr id="<%= dom_id(step) %>", class= "<%= 'table-success' if step.status == 1  %>">
           <td><%= step.description %></td>
           <td><%= step.estimated_minute %></td>
           <td><%= step.priority %></td>

@@ -2,7 +2,7 @@
   <div class="container mt-2">
     <table class="table table-bordered table-striped"> <!-- Tableau Bootstrap -->
       <thead>
-        <tr>
+        <tr class="table-dark">
           <th>Description</th>
           <th>Durée estimée (minutes)</th>
           <th>Priorité</th>
@@ -10,7 +10,7 @@
       </thead>
       <tbody>
         <% steps.each do |step| %>
-          <tr>
+          <tr class= "<%= 'table-success' if step.status == 1  %>" >
             <td><%= step.description %></td>
             <td><%= step.estimated_minute %></td>
             <td><%= step.priority %></td>
