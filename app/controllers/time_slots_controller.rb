@@ -17,6 +17,19 @@ class TimeSlotsController < ApplicationController
     end
   end
 
+  def destroy
+    @time_slot = TimeSlot.find(params[:id])
+    @time_slot.destroy
+
+    respond_to do |format|
+      format.html { redirect_to request.referer || new_goal_time_slot_path(@goal) }
+      format.turbo_stream do
+        # Supprime simplement l'élément de la page
+        render turbo_stream: turbo_stream.remove(@time_slot)
+      end
+    end
+  end
+
   def generate_calendar
    GeneratePlanningJob.perform_now(@goal.id)
     redirect_to calendars_path, notice: "Génération du calendrier en cours..."

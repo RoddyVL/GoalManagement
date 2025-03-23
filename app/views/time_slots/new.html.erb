@@ -27,5 +27,5 @@
 <% end %>
 
   <%= link_to "Générer le calendrier", generate_calendar_goal_time_slots_path, class: "btn btn-outline-dark mt-5" %>
-  <%= render 'slots', time_slots: @time_slots %>
+  <%= render 'slots', time_slots: @time_slots, goal: @goal%>
 </div>
