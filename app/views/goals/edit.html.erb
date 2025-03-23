@@ -9,6 +9,6 @@
   <%= render 'update_list', steps: @steps if @steps&.any? %>
    <div class="d-flex justify-content-center gap-2">
       <%= link_to 'Retour', goal_path(@goal), class: 'btn btn-outline-dark' %>
-      <%= link_to 'réassigner', goal_path(@goal), class: 'btn btn-outline-dark' %>
+      <%= link_to 'réassigner', reassign_goal_path(@goal), class: 'btn btn-outline-dark' %>
     </div>
 </div>

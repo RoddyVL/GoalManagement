@@ -1,5 +1,5 @@
 class GoalsController < ApplicationController
-  before_action :set_goal_and_steps, only: %i[show edit]
+  before_action :set_goal_and_steps, only: %i[show edit reassign]
 
   def new
     @goal = Goal.new
@@ -43,6 +43,11 @@ class GoalsController < ApplicationController
 
   def edit
     @step = Step.new
+  end
+
+  def reassign
+    ReassignAfterUpdateJob.perform_now(@goal.id)
+    redirect_to goals_path
   end
 
   private
