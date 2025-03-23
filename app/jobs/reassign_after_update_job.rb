@@ -16,22 +16,26 @@ class ReassignAfterUpdateJob < ApplicationJob
     # On récupère les futures sessions afin d'y assigné les steps
     future_sessions = Session.where("start_time >= ?", Time.current).to_a.sort_by(&:start_time)
     future_steps = future_sessions.flat_map { |session| session.steps }.sort_by(&:id)
-    steps_to_reassign = future_steps
+    step_to_assign =  Step.where(session: nil)
+    puts "step to assign: #{step_to_assign.length}"
+    steps_to_reassign = future_steps + step_to_assign
     puts "future sessions: #{future_sessions.length}"
     puts "future steps: #{future_steps.length}"
+    puts Step.where(status: 0).length
+    puts "steps to reassign: #{steps_to_reassign.length}"
 
 
 
 
 
     # jusqu'à ce qu'il n'y ai plus de 'steps à réassinger', si il y a des 'futures sessions', on va assigner les 'steps' à une 'session' tant que la somme de leur durée est inférieur au temps totale disponible
-    until steps_to_reassign.empty?
+    unless steps_to_reassign.empty?
       if future_sessions.any?
         future_sessions.each do |session|
           steps_total_time = 0
-          while steps_total_time < session.total_time
+          while steps_total_time < session.total_time && steps_to_reassign.any?
             step = steps_to_reassign.shift
-            step.update(session: session)
+            step.update(session: session) unless step&.session == session
             steps_total_time += step.estimated_minute
             puts "step total time: #{steps_total_time} - session total time: #{session.total_time}"
           end
