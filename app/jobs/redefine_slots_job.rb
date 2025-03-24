@@ -5,14 +5,18 @@ class RedefineSlotsJob < ApplicationJob
     # On récupère toutes les données nécessaire pour faire fonctionner l'algorithme
     goal = Goal.find(goal_id)
     puts "goal: #{goal.description}"
-    slots = TimeSlot.all.map(&:day_of_week_before_type_cast)
+    slots = goal.time_slots.map(&:day_of_week_before_type_cast)
     puts "slots: #{slots} - #{slots.length}"
-    sessions = Session.where("start_time >= ?", Time.current)
-    puts "sessions: #{sessions} - #{sessions.length}"
-    sessions_to_delete = sessions.where.not("EXTRACT(DOW FROM start_time) IN (?)", slots)
+    sessions = goal.sessions.where("start_time >= ?", Time.current)
+    puts "sessions: #{sessions.to_a} - #{sessions.length}"
+    sessions_to_delete = sessions.reject { |session| slots.include?(session.start_time.wday) }     # sessions_to_delete = sessions.where.not("EXTRACT(DOW FROM start_time) IN (?)", slots)
     puts "session to delete: #{sessions_to_delete} - #{sessions_to_delete.length}"
-    sessions_to_delete.destroy_all if sessions_to_delete.any?
-    steps_without_session = Step.where(session: nil).t
+    steps_to_disconect = sessions_to_delete.flat_map(&:steps)
+    steps_to_disconect.each do |step|
+      step.update(session: nil)
+    end
+    sessions_to_delete.each(&:destroy) if sessions_to_delete.any?
+    steps_without_session = goal.steps.where(session: nil).to_a
     puts "steps without session: #{steps_without_session} - #{steps_without_session.to_a.length}"
     future_sessions = Session.where("start_time >= ?", Time.current).to_a.sort_by(&:start_time)
     future_steps = future_sessions.flat_map { |session| session.steps }.sort_by(&:priority)
@@ -20,6 +24,10 @@ class RedefineSlotsJob < ApplicationJob
     puts "future steps: #{future_steps.length}"
     steps_to_reassign = (steps_without_session + future_steps).sort_by(&:priority)
     puts "steps to reassign: #{steps_to_reassign.length}"
+
+    reference_date_and_time = Time.current
+    reference_day = reference_date_and_time.wday
+    time_slots = goal.time_slots.order(:day_of_week, :start_time).to_a
 
     # On lance l'algorithme
      # jusqu'à ce qu'il n'y ai plus de 'steps à réassinger', si il y a des 'futures sessions', on va assigner les 'steps' à une 'session' tant que la somme de leur durée est inférieur au temps totale disponible

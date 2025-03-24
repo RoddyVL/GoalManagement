@@ -13,7 +13,7 @@ class TimeSlotsController < ApplicationController
     else
       @time_slots = TimeSlot.all.order(:day_of_week, :start_time) # Réassigner @time_slots
       flash.now[:alert] = @time_slot.errors.full_messages.to_sentence
-      render :new, status: :unprocessable_entity
+      render :new, notice: "créneaux déjà pris"
     end
   end
 
