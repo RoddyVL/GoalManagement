@@ -3,6 +3,7 @@
     <%= simple_form_for [@goal, @step] do |f| %>
       <%= f.input :description %>
       <%= f.input :estimated_minute %>
+      <%= f.input :note, as: :text, label: "Bloc-notes (optionnel)" %>
       <%= f.submit 'ajouter une étape', class: 'btn btn-outline-dark' %>
     <% end %>
   </div>

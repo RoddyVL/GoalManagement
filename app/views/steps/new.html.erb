@@ -2,7 +2,7 @@
 
   <h1 class='text-center'><%= "définir les étapes pour: #{@goal.description}" %></h1>
 
-  <%= simple_form_for [@goal, @step] do |f| %>
+  <%= simple_form_for [@goal, @step], data: { turbo: true } do |f| %>
     <%= f.input :description %>
     <%= f.input :estimated_minute %>
     <%= f.submit 'ajouter une étape', class: 'btn btn-outline-dark' %>
