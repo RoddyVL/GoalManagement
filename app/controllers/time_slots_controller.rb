@@ -45,6 +45,14 @@ class TimeSlotsController < ApplicationController
     redirect_to goals_path
   end
 
+  def destroy_all
+    @goal.time_slots.destroy_all
+    respond_to do |format|
+      format.html { redirect_to goal_path(@goal), notice: "Tous les créneaux horaires ont été supprimés avec succès." }
+      format.turbo_stream { render turbo_stream: turbo_stream.remove("time_slots") }
+    end
+  end
+
   private
 
   def set_goal

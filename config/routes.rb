@@ -22,9 +22,8 @@ Rails.application.routes.draw do
     resources :time_slots, only: %i[new create destroy index] do
       collection do
         get :generate_calendar
-      end
-      collection do
         get :redefine_slots
+        delete :destroy_all
       end
     end
   end

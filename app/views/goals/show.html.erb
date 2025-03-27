@@ -7,12 +7,21 @@
     <%= link_to 'modifier les étapes', edit_goal_path(@goal), class:'btn btn-outline-dark' %>
   </div>
   <h2 class='text-center my-5'>Créneaux pour cet objectif: </h2>
+
   <%= render 'goal_slots', time_slots: @time_slots %>
-  <div class=' d-flex justify-content-center'>
+  <div class= 'd-flex justify-content-center'>
     <%= link_to "modifier mes disponibilités", goal_time_slots_path(@goal), class:'btn btn-outline-dark my-3' %>
   </div>
   <h1 class='text-center my-5'>Créer une session</h1>
   <div class=' d-flex justify-content-center'>
     <%= link_to "créer une session", new_goal_session_path(@goal), class: "btn btn-outline-dark my-5" %>
+
+
+  </div>
+  <div class= 'd-flex justify-content-center'>
+    <%= button_to "cloturer ce projet", destroy_all_goal_time_slots_path(@goal),
+                method: :delete,
+                data: { turbo_confirm: "Es-tu sûr de vouloir supprimer tous les créneaux horaires ?" },
+                class: "btn btn-danger my-4" %>
   </div>
 </div>
