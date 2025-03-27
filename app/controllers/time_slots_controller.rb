@@ -31,6 +31,7 @@ class TimeSlotsController < ApplicationController
   end
 
   def index
+    @all_time_slots = TimeSlot.where.not(goal: @goal)
     @time_slots = @goal.time_slots
     @time_slot = TimeSlot.new
   end
