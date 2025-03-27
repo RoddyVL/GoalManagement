@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
   def create
     @session = @goal.sessions.new(session_params)
     if @session.save
+      ReassignStepsJob.perform_now(@goal.id)
       redirect_to calendars_path
     else
       redirect_to goals_path
