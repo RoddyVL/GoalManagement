@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     end
     resources :calendars, only: %i[index]
     resources :steps, only: %i[new create edit update destroy]
+    resources :sessions, only: %i[new create]
     resources :time_slots, only: %i[new create destroy index] do
       collection do
         get :generate_calendar
