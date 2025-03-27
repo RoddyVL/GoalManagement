@@ -23,4 +23,24 @@ export default class extends Controller {
       body: JSON.stringify({ priority: newIndex }),
     });
   }
+
+  updateNote(event) {
+    const stepId = event.target.dataset.stepId;
+    const note = event.target.value;
+
+    fetch(`/steps/${stepId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
+      },
+      body: JSON.stringify({ step: { note: note } })
+    })
+    .then(response => {
+      if (!response.ok) throw new Error("Erreur lors de la mise à jour");
+      return response.json();
+    })
+    .then(data => console.log("Note mise à jour", data))
+    .catch(error => console.error("Erreur:", error));
+  }
 }

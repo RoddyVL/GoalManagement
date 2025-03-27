@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :steps, only: %i[edit update destroy] do
+  resources :steps, only: %i[edit update destroy show] do
     member do
       patch :toggle_status
       patch :move_up

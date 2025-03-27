@@ -18,7 +18,14 @@
                 <%= check_box_tag "step_status_#{step.id}", "1", step.status == 1,
                     class: "form-check-input form-check-lg",
                     data: { action: "click->step#toggle", step_id: step.id } %>
-                <%= label_tag "step_status_#{step.id}", "#{step.description} (#{step.estimated_minute} min)", class: "form-check-label ms-2" %>
+
+               <div class="d-flex align-items-center">
+                  <%= label_tag "step_status_#{step.id}", "#{step.description} (#{step.estimated_minute} min)", class: "form-check-label ms-2" %>
+                  <%= link_to step_path(step), class: "ms-2" do %>
+                    <i class="bi bi-pencil"></i> <!-- Icône pour l'édition -->
+                  <% end %>
+              </div>
+
               </div>
             <% end %>
             <% else %>

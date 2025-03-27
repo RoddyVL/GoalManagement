@@ -25,14 +25,21 @@ class StepsController < ApplicationController
     @step = Step.find(params[:id])
   end
 
-  def update
-    @step = Step.find(params[:id])
-    if @step.update(step_params)
-      redirect_to new_goal_step_path(@step.goal), notice: "Étape mise à jour avec succès."
-    else
-      render :edit, status: :unprocessable_entity
+ def update
+  @step = Step.find(params[:id])
+  if @step.update(step_params)
+    # Vérifie si la requête vient de Turbo et répond avec un partial
+    respond_to do |format|
+      format.html { redirect_to new_goal_step_path(@step.goal), notice: "Étape mise à jour avec succès." }
+      format.turbo_stream { render turbo_stream: turbo_stream.replace(@step, partial: "steps/step", locals: { step: @step }) }
+      format.json { head :no_content }
     end
+  else
+    render :edit, status: :unprocessable_entity
   end
+end
+
+
 
   def destroy
     @step = Step.find(params[:id])
@@ -47,6 +54,9 @@ class StepsController < ApplicationController
     end
   end
 
+  def show
+    @step = Step.find(params[:id])
+  end
 
   def toggle_status
     @step = Step.find(params[:id])
@@ -77,7 +87,7 @@ class StepsController < ApplicationController
     previous_step = @step.goal.steps.where("priority < ?", @step.priority).order(priority: :desc).first
     swap_priorities(@step, previous_step) if previous_step
     respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.replace("steps_new_list", partial: "steps/new_list", locals: { steps: @step.goal.steps.order(:priority), goals: @goals }) }
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("steps_new_list", partial: "goals/update_list", locals: { steps: @step.goal.steps.order(:priority), goals: @goals }) }
     end
   end
 
@@ -85,7 +95,7 @@ class StepsController < ApplicationController
     next_step = @step.goal.steps.where("priority > ?", @step.priority).order(priority: :asc).first
     swap_priorities(@step, next_step) if next_step
     respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.replace("steps_new_list", partial: "steps/new_list", locals: { steps: @step.goal.steps.order(:priority), goals: @goals }) }
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("steps_new_list", partial: "goals/update_list", locals: { steps: @step.goal.steps.order(:priority), goals: @goals }) }
     end
   end
 
@@ -100,7 +110,7 @@ class StepsController < ApplicationController
   end
 
   def step_params
-    params.require(:step).permit(:description, :estimated_minute)
+    params.require(:step).permit(:description, :estimated_minute, :note)
   end
 
   def swap_priorities(step1, step2)

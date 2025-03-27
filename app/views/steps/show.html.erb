@@ -1,0 +1,13 @@
+
+<div id="container">
+  <%= form_with model: @step, remote: true, method: :patch, html: { id: "note-form" } do |f| %>
+    <div class="">
+      <%= f.submit @step.new_record? ? "Créer" : "enregistrer", class: "btn btn-primary mb-1" %>
+    </div>
+    <%= f.text_area :note, placeholder: "Écrivez vos notes ici...", class: "form-control", rows: 30, data: { action: "input->step#autosave" } %>
+  <% end %>
+</div>
+
+<div class= "d-flex justify-content-center">
+  <%= link_to "Retour", goals_path, class: "btn btn-outline-dark my-3" %>
+</div>

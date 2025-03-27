@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["checkbox"]
+  static targets = ["checkbox", "textarea"]
 
   toggle(event) {
     const checkbox = event.target
@@ -31,5 +31,20 @@ export default class extends Controller {
       // Réinitialiser l'état de la checkbox en cas d'erreur
       checkbox.checked = !checkbox.checked
     })
+  }
+
+  autosave(event) {
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      this.saveNote(event.target);
+    }, 500); // Attendre 500ms avant d'enregistrer
+  }
+
+  saveNote(textarea) {
+    fetch(textarea.form.action, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content },
+      body: JSON.stringify({ step: { notes: textarea.value } })
+    });
   }
 }
