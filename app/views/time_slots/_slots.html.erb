@@ -25,7 +25,7 @@
   </div>
 <% end %>
 
-<% if all_time_slots %>
+<% if @all_time_slots %>
   <div class="mt-4 row">
     <% all_time_slots.group_by(&:day_of_week).each do |day_of_week, slots| %>
       <div class="col-12 col-md-6 col-lg-2 mb-3">
@@ -33,7 +33,7 @@
           <div class="card-header text-center fw-bold">
             <%= day_of_week %>
           </div>
-          <div class="card-body">
+          <div class="card-body bg-success">
             <ul class="list-group">
               <% slots.each do |time_slot| %>
                 <li id="<%= dom_id(time_slot) %>" class="list-group-item d-flex justify-content-between align-items-center">

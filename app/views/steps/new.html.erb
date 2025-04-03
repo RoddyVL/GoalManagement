@@ -5,11 +5,12 @@
   <%= simple_form_for [@goal, @step], data: { turbo: true } do |f| %>
     <%= f.input :description %>
     <%= f.input :estimated_minute %>
-    <%= f.submit 'ajouter une étape', class: 'btn btn-outline-dark' %>
+    <%= f.submit 'add step', class: 'btn btn-outline-dark mb-5' %>
   <% end %>
 
-  <%= render 'new_list', steps: @steps if @steps&.any? %>
-
-  <%= link_to 'étape suivante', new_goal_time_slot_path(@goal), class: 'btn btn-outline-primary mb-5' %>
+  <% if @steps&.any? %>
+    <%= render 'new_list', steps: @steps, class:'mt-5'%>
+    <%= link_to 'next step', new_goal_time_slot_path(@goal), class: 'btn btn-outline-primary mb-5 mt-2' %>
+  <% end %>
 
 </div>

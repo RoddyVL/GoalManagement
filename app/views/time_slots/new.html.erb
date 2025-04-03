@@ -1,9 +1,9 @@
 <div class='container mt-5'>
 <%= simple_form_for [@goal, @time_slot] do |f| %>
   <%= f.input :day_of_week,
-              label: "Jour de la semaine",
+              label: "Day of week",
               collection: TimeSlot.day_of_weeks.keys.map { |key| [key.capitalize, key] },
-              include_blank: "Sélectionnez un jour" %>
+              include_blank: "Select a day" %>
 
   <%= f.input :start_time, as: :string,
             input_html: {
@@ -23,9 +23,11 @@
               required: true
             } %>
 
-  <%= f.submit 'ajouter un créneau' %>
+  <%= f.submit 'Add a slot', class:'btn btn-outline-dark mt-3'%>
 <% end %>
 
-  <%= link_to "Générer le calendrier", generate_calendar_goal_time_slots_path, class: "btn btn-outline-dark mt-5" %>
   <%= render 'slots', time_slots: @time_slots, goal: @goal %>
+  <div class=' d-flex justify-content-center'>
+    <%= link_to "Generate calendar", generate_calendar_goal_time_slots_path, class: "btn btn-outline-success my-5" %>
+  </div>
 </div>

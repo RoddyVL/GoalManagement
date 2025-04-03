@@ -5,15 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
   </head>
 
   <body>
-    <%= render "shared/navbar" %>
-    <%= render "shared/flashes" %>
-    <%= yield %>
+
+   <!-- HEADER -->
+    <nav class="bg-white shadow-md">
+      <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <h1 class="text-xl font-semibold text-gray-800">Alignflow</h1>
+        <% if user_signed_in? %>
+
+          <div class='d-flex'>
+            <%= link_to "Dashboard", root_path, class: "text-gray-600 hover:text-gray-900 px-4 nav-link" %>
+            <%= link_to "Calendar", calendars_path, class: "text-gray-600 hover:text-gray-900 px-4 nav-link" %>
+            <%= link_to "Plan", new_goal_path, class: "text-gray-600 hover:text-gray-900 px-4 nav-link" %>
+             <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
+          </div>
+        <% end %>
+      </div>
+    </nav>
+
+    <%# <%= render "shared/navbar" %>
+    <%# <%= render "shared/flashes" %>
+     <!-- CONTENU PRINCIPAL -->
+    <main class="container mx-auto px-6 py-8">
+      <%= yield %>
+    </main>
   </body>
 </html>
