@@ -39,10 +39,13 @@
     <% @goals.each do |goal| %>
       <div class="col-md-4">
         <%= link_to goal_path(goal), class: "text-decoration-none" do %>
-          <div class="card shadow-sm border-0 mb-3 hover-shadow-lg">
+          <div class="card shadow-sm border-0 mb-3 hover-shadow-lg ">
             <div class="card-body">
               <h5 class="card-title text-center"><%= goal.description %></h5>
-              <p class="text-center text-secondary"><%= (100 / goal.steps.length) * goal.steps.select { |step| step.status == 1 }.length %>% completed</p>
+              <p class="text-center text-secondary">
+                <%= goal.steps.any? ? ((100.0 / goal.steps.length) * goal.steps.count { |step| step.status == 1 }).round(2) : 0 %> % completed
+              </p>
+
             </div>
           </div>
         <% end %>
