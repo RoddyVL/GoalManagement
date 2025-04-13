@@ -2,6 +2,7 @@ class Session < ApplicationRecord
   belongs_to :goal
   has_many :steps
 
+  validates :start_time, :end_time, presence: true
   validates :start_time, :end_time, uniqueness: { scope: :goal_id }
   default_scope -> { order(:start_time) }  # Our meetings will be ordered by their start_time by default
 
