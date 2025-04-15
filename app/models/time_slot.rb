@@ -30,7 +30,7 @@ class TimeSlot < ApplicationRecord
   private
 
   def overlap?
-    same_day_time_slots = TimeSlot.where(day_of_week: self.day_of_week)
+    same_day_time_slots = goal.user.goals.flat_map(&:time_slots).select { |ts| ts.day_of_week == self.day_of_week }
 
     # Vérifier s'il y a un chevauchement avec un autre time_slot du même jour
     same_day_time_slots.each do |slot|

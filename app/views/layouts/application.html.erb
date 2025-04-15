@@ -13,15 +13,14 @@
 
   </head>
 
-  <body>
+  <body style="background-color: #EAF6F6;" >
 
    <!-- HEADER -->
     <% if user_signed_in? %>
       <nav class="bg-white shadow-md">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-          <%# <h1 class="text-xl font-semibold text-gray-800">Alignflow</h1> %>
 
-            <div class='d-flex'>
+          <div class='d-flex'>
               <%= link_to "Dashboard", root_path, class: "text-gray-600 hover:text-gray-900 px-4 nav-link" %>
               <%= link_to "Calendar", calendars_path, class: "text-gray-600 hover:text-gray-900 px-4 nav-link" %>
               <%= link_to "Plan", new_goal_path, class: "text-gray-600 hover:text-gray-900 px-4 nav-link" %>
@@ -31,11 +30,9 @@
       </nav>
     <% end %>
 
-    <%# <%= render "shared/navbar" %>
-    <%# <%= render "shared/flashes" %>
-     <!-- CONTENU PRINCIPAL -->
-    <main style="background-color: #EAF6F6;" >
+
+
+
       <%= yield %>
-    </main>
   </body>
 </html>

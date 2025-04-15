@@ -1,6 +1,6 @@
 <div class='container mt-5'>
 
-  <h1 class='text-center'><%= "define steps for: #{@goal.description}" %></h1>
+  <h1 class='text-center display-4 fw-bold text-primary'><%= "define steps for: #{@goal.description}" %></h1>
 
   <%= simple_form_for [@goal, @step], data: { turbo: true } do |f| %>
     <%= f.input :description %>
