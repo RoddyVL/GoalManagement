@@ -1,4 +1,4 @@
-<%= link_to 'Retour', goal_path(@goal), class: 'btn btn-outline-dark mx-2 mt-2' %>
+<%= link_to 'Retour', goal_path(@goal), class: 'btn btn-outline-primary mx-2 mt-2' %>
 <div class='container'>
   <%= simple_form_for [@goal, @time_slot] do |f| %>
     <%= f.input :day_of_week,
@@ -28,6 +28,6 @@
   <% end %>
   <%= render 'time_slots/slots', time_slots: @time_slots, goal: @goal, all_time_slots: @all_time_slots %>
   <div class=' d-flex justify-content-center my-5'>
-    <%= link_to "réassigner",  redefine_slots_goal_time_slots_path(@goal), class: 'btn btn-outline-dark' %>
+    <%= link_to "réassigner",  redefine_slots_goal_time_slots_path(@goal), class: 'btn btn-outline-primary' %>
   </div>
 </div>

@@ -1,6 +1,6 @@
 <%= simple_form_for [@goal, @session] do |f| %>
   <div class="container mt-5">
-    <h2 class="text-center mb-4">Créer une Session</h2>
+    <h1 class="text-center mb-4 fw-bold display-4 text-primary">Créer une Session</h2>
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="form-group">
@@ -14,12 +14,12 @@
         </div>
 
         <div class="form-group text-center">
-          <%= f.submit "Create Session", class: "btn btn-outline-dark mt-2" %>
+          <%= f.submit "Create Session", class: "btn btn-outline-primary mt-2" %>
         </div>
 
         <!-- Lien retour centré sans prendre toute la largeur -->
         <div class="form-group text-center">
-          <%= link_to "Retour", goal_path(@goal), class: 'btn btn-outline-secondary mt-5' %>
+          <%= link_to "Retour", goal_path(@goal), class: 'btn btn-outline-primary mt-5' %>
         </div>
       </div>
     </div>

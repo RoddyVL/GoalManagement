@@ -67,12 +67,6 @@
         </ul>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- SECTION 3 : Histoire + CTA Final -->
-<section style="background-color: #EAF6F6;">
-  <div class="container py-5" style="font-family: 'Helvetica Neue', sans-serif;">
     <!-- Histoire / About -->
     <div class="bg-white p-5 rounded-4 shadow mt-5">
       <h4 class="mb-4 fw-bold text-primary">Pourquoi j’ai créé cette application</h4>
@@ -94,13 +88,15 @@
   </div>
 </section>
 
+
+
 <section style="background-color: #EAF6F6;">
   <div class="container">
-    <h2 class= "fw-bold text-primary text-center">L'application en 3 étapes</h2>
+    <h1 class= "fw-bold text-primary text-center mt-3">L'application en 3 étapes</h1>
 
     <!-- étape 1-->
-    <p class='text-center'>1. je définis un objectif</p>
-    <div class="d-flex justify-content-center mb-4">
+    <p class='text-start'>1. je définis un objectif</p>
+    <div class="d-flex justify-content-start mb-4">
       <video
         autoplay
         muted
@@ -113,8 +109,8 @@
     </div>
 
     <!-- étape 2-->
-    <p class='text-center'>2.je renseigne les tâches et leurs durées estimés</p>
-    <div class="d-flex justify-content-center mb-4">
+    <p class='text-end'>2. je renseigne les tâches et leurs durées estimés</p>
+    <div class="d-flex justify-content-end mb-4">
       <video
         autoplay
         muted
@@ -127,7 +123,7 @@
     </div>
 
     <!-- étape 3-->
-    <p class='text-center'>3.je renseigne me disponibilités pour cet objectif</p>
+    <p class='text-center'>3. je renseigne mes disponibilités pour cet objectif</p>
     <div class="d-flex justify-content-center mb-4">
       <video
         autoplay
@@ -135,36 +131,36 @@
         loop
         playsinline
         style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
-        <source src="<%= asset_path('goal.mp4') %>" type="video/mp4">
+        <source src="<%= asset_path('slots.mp4') %>" type="video/mp4">
         Ton navigateur ne supporte pas la vidéo HTML5.
       </video>
     </div>
 
     <!-- résultats 1-->
-    <h2 class='text-center fw-bold text-primary'>Résultats:</h2>
-    <p class='text-center'>L'application plannifie automatiquement les tâches</p>
-    <div class="d-flex justify-content-center mb-4">
+    <h2 class='text-center fw-bold text-primary mt-5'>Résultats:</h2>
+    <p class='text-end'>L'application plannifie automatiquement les tâches</p>
+    <div class="d-flex justify-content-end mb-4">
       <video
         autoplay
         muted
         loop
         playsinline
         style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
-        <source src="<%= asset_path('goal.mp4') %>" type="video/mp4">
+        <source src="<%= asset_path('calendar.mp4') %>" type="video/mp4">
         Ton navigateur ne supporte pas la vidéo HTML5.
       </video>
     </div>
 
     <!-- résultats 2-->
-    <p class='text-center'>Tout les jours les actions planifiés s'affiche sous sous forme de to-do list</p>
-    <div class="d-flex justify-content-center mb-4">
+    <p class='text-start'>Tout les jours les actions planifiés s'affiche sous sous forme de to-do list</p>
+    <div class="d-flex justify-content-start mb-4">
       <video
         autoplay
         muted
         loop
         playsinline
         style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
-        <source src="<%= asset_path('goal.mp4') %>" type="video/mp4">
+        <source src="<%= asset_path('tasks.mp4') %>" type="video/mp4">
         Ton navigateur ne supporte pas la vidéo HTML5.
       </video>
     </div>
@@ -178,9 +174,13 @@
         loop
         playsinline
         style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
-        <source src="<%= asset_path('goal.mp4') %>" type="video/mp4">
+        <source src="<%= asset_path('plan.mp4') %>" type="video/mp4">
         Ton navigateur ne supporte pas la vidéo HTML5.
       </video>
     </div>
+    <div class="text-center my-5">
+      <%= link_to "🚀 Commence gratuitement et gagne en clarté dès aujourd’hui !",  new_user_registration_path, class: 'btn btn-lg px-5 py-3 fw-bold shadow text-white', style: 'background-color: #007B8F;' %>
+    </div>
   </div>
+
 </section>
