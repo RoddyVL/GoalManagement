@@ -92,5 +92,3 @@ class ReassignStepsJob < ApplicationJob
 
   end
 end
-
-

@@ -2,7 +2,7 @@ class TimeSlotsController < ApplicationController
   before_action :set_goal
   def new
     @time_slot = TimeSlot.new
-    @time_slots = current_user.goals.flat_map(&:time_slots).sort_by { |slot| [slot.day_of_week, slot.start_time] }
+    @time_slots = @goal.time_slots.order(:day_of_week)
   end
 
   def create
@@ -32,7 +32,7 @@ class TimeSlotsController < ApplicationController
 
   def index
     @all_time_slots = TimeSlot.where(goal: current_user.goals).where.not(goal: @goal)
-    @time_slots = @goal.time_slots
+    @time_slots = @goal.time_slots.order(:start_time)
     @time_slot = TimeSlot.new
   end
 
