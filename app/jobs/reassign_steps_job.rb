@@ -1,5 +1,6 @@
 class ReassignStepsJob < ApplicationJob
   queue_as :default
+#réassigne les steps si des steps non complété
 
   def perform(goal_id)
     # on définis les variables nécessaires pour pouvoir execurer ce job
@@ -14,16 +15,16 @@ class ReassignStepsJob < ApplicationJob
 
     # On récupère tout les steps à réassinger(les steps incomplété des sessions passé + les steps futures afin de garder l'ordre de priorité)
     # On récupère les futures sessions afin d'y assigné les steps
-    past_sessions = Session.where("end_time < ?", Time.current)
-    past_steps = past_sessions.flat_map { |session| session.steps.where(status: 0) }.sort_by(&:id)
-    future_sessions = Session.where("start_time >= ?", Time.current).to_a.sort_by(&:start_time)
-    future_steps = future_sessions.flat_map { |session| session.steps }.sort_by(&:id)
+    past_sessions = goal.sessions.where("end_time < ?", Time.current)
+    past_steps = past_sessions.flat_map { |session| session.steps.where(status: 0) }.sort_by(&:priority)  +  goal.steps.where(status: 0)
+    future_sessions = goal.sessions.where("start_time >= ?", Time.current).to_a.sort_by(&:start_time)
+
     puts "past sessions: #{past_sessions.length}"
     puts "past steps: #{past_steps.length}"
     puts "future sessions: #{future_sessions.length}"
-    puts "future steps: #{future_steps.length}"
+
     if past_steps.any? #si on ne trouve pas de past_step avec un status 0, on interomp le job car il n'y a rien à réassigner
-      steps_to_reassign = (past_steps + future_steps).sort_by(&:id)
+      steps_to_reassign = goal.steps.where(status: 0).sort_by(&:priority)
     else
       steps_to_reassign = []
     end

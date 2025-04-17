@@ -1,8 +1,8 @@
 <%# app/views/steps/edit.html.erb %>
 <div class='container'>
-  <h1>Modifier l'étape</h1>
+  <h1 class='mt-3'>Edit step</h1>
 
   <%= render "form" %>
 
-  <%= link_to "Retour", new_goal_step_path(@step.goal), class: "btn btn-secondary mt-3" %>
+  <%= link_to "Back", new_goal_step_path(@step.goal), class: "btn btn-secondary mt-3" %>
 </div>

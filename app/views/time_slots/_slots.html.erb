@@ -1,12 +1,39 @@
 <% if time_slots %>
   <div class="mt-4 row">
-    <% @time_slots.group_by(&:day_of_week).each do |day_of_week, slots| %>
+    <% time_slots.group_by(&:day_of_week).each do |day_of_week, slots| %>
       <div class="col-12 col-md-6 col-lg-2 mb-3">
         <div class="card">
           <div class="card-header text-center fw-bold">
             <%= day_of_week %>
           </div>
           <div class="card-body">
+            <ul class="list-group">
+              <% slots.each do |time_slot| %>
+                <li id="<%= dom_id(time_slot) %>" class="list-group-item d-flex justify-content-between align-items-center">
+                  <span><%= "#{time_slot.start_time.strftime("%H:%M")} - #{time_slot.end_time.strftime("%H:%M")}" %></span>
+                  <%= button_to goal_time_slot_path(goal, time_slot), method: :delete, data: { confirm: "Êtes-vous sûr ?"}, class: "text-danger border-0 p-0" do %>
+                    <i class="bi bi-trash"></i>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @all_time_slots %>
+  <div class="mt-4 row">
+    <% all_time_slots.group_by(&:day_of_week).each do |day_of_week, slots| %>
+      <div class="col-12 col-md-6 col-lg-2 mb-3">
+        <div class="card bg-success">
+          <div class="card-header text-center fw-bold">
+            <%= day_of_week %>
+          </div>
+          <div class="card-body bg-success">
             <ul class="list-group">
               <% slots.each do |time_slot| %>
                 <li id="<%= dom_id(time_slot) %>" class="list-group-item d-flex justify-content-between align-items-center">

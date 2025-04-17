@@ -18,7 +18,12 @@
                   class: "form-check-input form-check-lg",
                   data: { action: "click->step#toggle", step_id: step.id } %>
             </td>
-            <td><%= step.description %></td>
+            <td>
+              <%= step.description %>
+              <%= link_to step_path(step), class: "ms-2" do %>
+                <i class="bi bi-pencil"></i> <!-- Icône pour l'édition -->
+              <% end %>
+            </td>
             <td><%= step.estimated_minute %></td>
             <td><%= step.priority %></td>
             <td>
@@ -26,7 +31,7 @@
               <%= button_to "↓", move_down_new_step_path(step), method: :patch, class: "btn btn-sm btn-secondary" %>
             </td>
             <td>
-              <%= button_to step_path(step), class: "border-0 p-0", method: :delete, data: { confirm: "Voulez-vous vraiment supprimer cette étape ?" } do %>
+              <%= button_to step_path(step), class: "border-0 p-0", method: :delete, data: { turbo_confirm: "Voulez-vous vraiment supprimer cette étape ?" } do %>
                 <i class="bi bi-trash"></i>
               <% end %>
             </td>

@@ -2,6 +2,7 @@ class RedefineSlotsJob < ApplicationJob
   queue_as :default
 
   def perform(goal_id)
+    puts "start RedefineSlotsJob"
     # On récupère toutes les données nécessaire pour faire fonctionner l'algorithme
     goal = Goal.find(goal_id)
     puts "goal: #{goal.description}"

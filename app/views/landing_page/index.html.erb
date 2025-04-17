@@ -1,0 +1,186 @@
+<!-- SECTION 1 : Headline, Video & CTA -->
+<section class="full-width-section" style="background-color: #EAF6F6;">
+  <div class="container py-5" style="font-family: 'Helvetica Neue', sans-serif;">
+    <!-- Headline & Subheadline -->
+    <div class="text-center mb-5">
+      <h1 class="display-4 fw-bold text-primary">Avance chaque jour avec un planning qui s'adapte à ta réalité</h1>
+      <h5 class="text-muted mt-3">L'app qui transforme tes objectifs en planning réaliste, s’adapte à tes journées, et te garde concentré sur l’essentiel.</h5>
+    </div>
+
+    <!-- Video Section -->
+   <div class="d-flex justify-content-center mb-4">
+      <video autoplay muted width="640" height="360" controls style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+        <source src="<%= asset_path('VSL.mp4') %>" type="video/mp4">
+        Ton navigateur ne supporte pas la lecture vidéo.
+      </video>
+    </div>
+
+
+
+    <!-- CTA Button -->
+    <div class="text-center mb-5">
+      <%= link_to "🎯 Teste gratuitement maintenant !",  new_user_registration_path, class: 'btn btn-lg px-4 py-3 fw-bold shadow text-white', style: 'background-color: #007B8F;' %>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2 : Features -->
+<section style="background-color: #f8f9fa;">
+  <div class="container py-5" style="font-family: 'Helvetica Neue', sans-serif;">
+    <!-- Features Section -->
+    <div class="row justify-content-center text-start">
+      <div class="col-md-5 mb-4">
+        <ul class="list-unstyled">
+          <li class="mb-4">
+            <h5 class="text-primary">🧠 Planification intelligente</h5>
+            <p class="text-muted">Gagne du temps grâce à une planification automatique basée sur tes priorités et ton emploi du temps.</p>
+          </li>
+          <li class="mb-4">
+            <h5 class="text-primary">✅ To-do list quotidienne</h5>
+            <p class="text-muted">Une liste claire chaque jour. Plus de confusion, tu sais exactement quoi faire.</p>
+          </li>
+          <li class="mb-4">
+            <h5 class="text-primary">🔄 Replanification automatique</h5>
+            <p class="text-muted">Tu n’as pas terminé une tâche ? L’app la reprogramme pour toi automatiquement.</p>
+          </li>
+          <li class="mb-4">
+            <h5 class="text-primary">🗓️ Créneaux récurrents</h5>
+            <p class="text-muted">Alloue du temps chaque semaine pour ce qui compte vraiment, sans y penser.</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-md-5 mb-4">
+        <ul class="list-unstyled">
+          <li class="mb-4">
+            <h5 class="text-primary">🎯 Gestion de projets et d'objectifs</h5>
+            <p class="text-muted">Avance pas à pas vers tes objectifs, avec une vision claire et structurée.</p>
+          </li>
+          <li class="mb-4">
+            <h5 class="text-primary">🔔 Notifications</h5>
+            <p class="text-muted">Rappels intelligents pour rester concentré même les jours de tempête mentale.</p>
+          </li>
+          <li class="mb-4">
+            <h5 class="text-primary">🧩 Adaptabilité en continu</h5>
+            <p class="text-muted">L’app s’adapte à tes journées imprévisibles. Tu restes aligné sans te surcharger.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- Histoire / About -->
+    <div class="p-5 rounded-4 shadow mt-5">
+      <h4 class="mb-4 fw-bold text-primary">Pourquoi j’ai créé cette application</h4>
+      <p class="text-muted">
+        Alors que je m’investissais à fond dans mes projets – professionnels, sportifs, personnels – je me sentais vite dépassé. Tâches, imprévus, obligations… tout se mélangeait. La confusion prenait le dessus.
+      </p>
+      <p class="text-muted">
+        J’ai alors eu l’idée de développer une application qui m’aide à avancer sans m’épuiser. Un outil simple, mais puissant. Qui comprend mes journées, m’aide à structurer mes actions, et reste flexible face à la réalité.
+      </p>
+      <p class="text-muted">
+        Résultat ? Moins de stress, plus de clarté. Aujourd’hui, je sais quoi faire chaque jour. Mon énergie est focalisée sur l’essentiel. Et j’avance.
+      </p>
+    </div>
+
+    <!-- Second CTA -->
+    <div class="text-center mt-5">
+      <%= link_to "🚀 Commence gratuitement et gagne en clarté dès aujourd’hui !",  new_user_registration_path, class: 'btn btn-lg px-5 py-3 fw-bold shadow text-white', style: 'background-color: #007B8F;' %>
+    </div>
+  </div>
+</section>
+
+
+
+<section style="background-color: #EAF6F6;">
+  <div class="container">
+    <h1 class= "fw-bold text-primary text-center mt-3">L'application en 3 étapes</h1>
+
+    <!-- étape 1-->
+    <p class='text-start'>1. je définis un objectif</p>
+    <div class="d-flex justify-content-start mb-4">
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
+        <source src="<%= asset_path('goal.mp4') %>" type="video/mp4">
+        Ton navigateur ne supporte pas la vidéo HTML5.
+      </video>
+    </div>
+
+    <!-- étape 2-->
+    <p class='text-end'>2. je renseigne les tâches et leurs durées estimés</p>
+    <div class="d-flex justify-content-end mb-4">
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
+        <source src="<%= asset_path('steps.mp4') %>" type="video/mp4">
+        Ton navigateur ne supporte pas la vidéo HTML5.
+      </video>
+    </div>
+
+    <!-- étape 3-->
+    <p class='text-center'>3. je renseigne mes disponibilités pour cet objectif</p>
+    <div class="d-flex justify-content-center mb-4">
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
+        <source src="<%= asset_path('slots.mp4') %>" type="video/mp4">
+        Ton navigateur ne supporte pas la vidéo HTML5.
+      </video>
+    </div>
+
+    <!-- résultats 1-->
+    <h2 class='text-center fw-bold text-primary mt-5'>Résultats:</h2>
+    <p class='text-end'>L'application plannifie automatiquement les tâches</p>
+    <div class="d-flex justify-content-end mb-4">
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
+        <source src="<%= asset_path('calendar.mp4') %>" type="video/mp4">
+        Ton navigateur ne supporte pas la vidéo HTML5.
+      </video>
+    </div>
+
+    <!-- résultats 2-->
+    <p class='text-start'>Tout les jours les actions planifiés s'affiche sous sous forme de to-do list</p>
+    <div class="d-flex justify-content-start mb-4">
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
+        <source src="<%= asset_path('tasks.mp4') %>" type="video/mp4">
+        Ton navigateur ne supporte pas la vidéo HTML5.
+      </video>
+    </div>
+
+    <!-- résultats 3-->
+    <p class='text-center'>A la fin de la journée les actions qui n'ont pas été effectué sont automatiquement replanifié en respectant l'ordre de priorité</p>
+    <div class="d-flex justify-content-center mb-4">
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
+        style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
+        <source src="<%= asset_path('plan.mp4') %>" type="video/mp4">
+        Ton navigateur ne supporte pas la vidéo HTML5.
+      </video>
+    </div>
+    <div class="text-center my-5">
+      <%= link_to "🚀 Commence gratuitement et gagne en clarté dès aujourd’hui !",  new_user_registration_path, class: 'btn btn-lg px-5 py-3 fw-bold shadow text-white', style: 'background-color: #007B8F;' %>
+    </div>
+  </div>
+
+</section>

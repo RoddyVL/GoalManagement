@@ -3,7 +3,7 @@ simple-calendar {
     min-height: 80vh;
   }
   .today {
-    background-color: #FAF3DD;
+    background-color: #ffffff;
   }
 }
 
@@ -11,11 +11,11 @@ simple-calendar {
   color: white;
   padding: 8px 24px;
   border-radius: 4px;
-  background: #1EDD88;
+  background: #0D6EFD;
   transition: background 0.3s ease;
 }
 
-.sesion:hover {
-  background: #1BCB7F;
+.session:hover {
+  background: #2b7bf3;
   color: white;
 }

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'landing_page/index'
   devise_for :users
   root to: "goals#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -11,6 +12,7 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   get 'calendars', to: 'calendar#index'
+  get 'landing', to: 'landing_page#index'
 
   resources :goals, only: %i[new create index show edit update destroy] do
     member do
@@ -18,12 +20,12 @@ Rails.application.routes.draw do
     end
     resources :calendars, only: %i[index]
     resources :steps, only: %i[new create edit update destroy]
+    resources :sessions, only: %i[new create]
     resources :time_slots, only: %i[new create destroy index] do
       collection do
         get :generate_calendar
-      end
-      collection do
         get :redefine_slots
+        delete :destroy_all
       end
     end
   end

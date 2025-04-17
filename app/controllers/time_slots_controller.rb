@@ -2,7 +2,7 @@ class TimeSlotsController < ApplicationController
   before_action :set_goal
   def new
     @time_slot = TimeSlot.new
-    @time_slots = TimeSlot.all.order(:day_of_week, :start_time)
+    @time_slots = @goal.time_slots.order(:day_of_week)
   end
 
   def create
@@ -31,7 +31,8 @@ class TimeSlotsController < ApplicationController
   end
 
   def index
-    @time_slots = @goal.time_slots
+    @all_time_slots = TimeSlot.where(goal: current_user.goals).where.not(goal: @goal)
+    @time_slots = @goal.time_slots.order(:start_time)
     @time_slot = TimeSlot.new
   end
 
@@ -43,6 +44,14 @@ class TimeSlotsController < ApplicationController
   def redefine_slots
     RedefineSlotsJob.perform_now(@goal.id)
     redirect_to goals_path
+  end
+
+  def destroy_all
+    @goal.time_slots.destroy_all
+    respond_to do |format|
+      format.html { redirect_to goal_path(@goal), notice: "Tous les créneaux horaires ont été supprimés avec succès." }
+      format.turbo_stream { render turbo_stream: turbo_stream.remove("time_slots") }
+    end
   end
 
   private
