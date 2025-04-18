@@ -3,7 +3,7 @@ class TimeSlotsController < ApplicationController
   def new
     @time_slot = TimeSlot.new
     @time_slots = @goal.time_slots.order(:day_of_week)
-    @all_time_slots = TimeSlot.where(goal: current_user.goals).where.not(goal: @goal)
+    @all_time_slots = TimeSlot.where(goal: current_user.goals).where.not(goal: @goal).order(:day_of_week)
   end
 
   def create
@@ -32,7 +32,7 @@ class TimeSlotsController < ApplicationController
   end
 
   def index
-    @all_time_slots = TimeSlot.where(goal: current_user.goals).where.not(goal: @goal)
+    @all_time_slots = TimeSlot.where(goal: current_user.goals).where.not(goal: @goal).order(:day_of_week)
     @time_slots = @goal.time_slots.order(:start_time)
     @time_slot = TimeSlot.new
   end
