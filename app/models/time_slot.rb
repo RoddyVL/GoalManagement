@@ -8,13 +8,13 @@ class TimeSlot < ApplicationRecord
   validate :validate_overlap
 
   enum day_of_week: {
-   monday: 1,
-    Tuesday: 2,
-    Wednesday: 3,
-    Thursday: 4,
-    Friday: 5,
-    Saturday: 6,
-    Sunday: 0
+    sunday: 0,
+    monday: 1,
+    tuesday: 2,
+    wednesday: 3,
+    thursday: 4,
+    friday: 5,
+    saturday: 6,
   }, _prefix: true
 
   def total_time

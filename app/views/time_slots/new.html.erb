@@ -27,10 +27,10 @@
     <%= f.submit 'Add a slot', class:'btn btn-outline-primary mt-3'%>
   <% end %>
 
-  <% if @time_slots.any? %>
-    <%= render 'slots', time_slots: @time_slots, goal: @goal %>
-    <div class=' d-flex justify-content-center'>
-      <%= link_to "Generate calendar", generate_calendar_goal_time_slots_path, class: "btn btn-outline-primary my-5" %>
-    </div>
-  <% end %>
+  <%= render 'slots', time_slots: @time_slots, goal: @goal, all_time_slots: @all_time_slots %>
+
+  <div class=' d-flex justify-content-center'>
+    <%= link_to "Generate calendar", generate_calendar_goal_time_slots_path, class: "btn btn-outline-primary my-5" %>
+  </div>
+
 </div>
