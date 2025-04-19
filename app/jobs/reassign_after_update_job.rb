@@ -29,16 +29,18 @@ class ReassignAfterUpdateJob < ApplicationJob
       if future_sessions.any?
         future_sessions.each do |session|
           steps_total_time = 0
+
           while steps_total_time < session.total_time && steps_to_reassign.any?
             step = steps_to_reassign.shift
             step.update(session: session) unless step&.session == session
             steps_total_time += step.estimated_minute
             puts "step total time: #{steps_total_time} - session total time: #{session.total_time}"
           end
-          future_sessions.shift
-          puts "future session: #{future_sessions.length}"
         end
-      else
+      end
+
+      if steps_to_reassign.any?
+        puts "Steps left to reassign: #{steps_to_reassign.size}"
         while steps_to_reassign.any?
           next_time_slot = time_slots.detect do |slot|
             slot_day = slot.day_of_week_before_type_cast
