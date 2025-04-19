@@ -71,7 +71,7 @@ class RedefineSlotsJob < ApplicationJob
 
             # 4. on assigne des steps à la session tant que la somme de leur durée est inférieur ou égale à la durée de la session
           steps_total_time = 0
-          while steps_total_time <= session.total_time && steps_to_reassign.any?
+          while steps_total_time < session.total_time && steps_to_reassign.any?
             step = steps_to_reassign.shift
             step.update(session: session)
             steps_total_time += step.estimated_minute

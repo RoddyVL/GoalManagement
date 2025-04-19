@@ -16,7 +16,7 @@ class ReassignStepsJob < ApplicationJob
     # On récupère tout les steps à réassinger(les steps incomplété des sessions passé + les steps futures afin de garder l'ordre de priorité)
     # On récupère les futures sessions afin d'y assigné les steps
     past_sessions = goal.sessions.where("end_time < ?", Time.current)
-    past_steps = past_sessions.flat_map { |session| session.steps.where(status: 0) }.sort_by(&:priority)  +  goal.steps.where(status: 0)
+    past_steps = Step.where(status: 0, session_id: past_sessions.pluck(:id)).order(:priority).to_a
     future_sessions = goal.sessions.where("start_time >= ?", Time.current).to_a.sort_by(&:start_time)
 
     puts "past sessions: #{past_sessions.length}"
@@ -72,7 +72,7 @@ class ReassignStepsJob < ApplicationJob
 
             # 4. on assigne des steps à la session tant que la somme de leur durée est inférieur ou égale à la durée de la session
           steps_total_time = 0
-          while steps_total_time <= session.total_time && steps_to_reassign.any?
+          while steps_total_time < session.total_time && steps_to_reassign.any?
             step = steps_to_reassign.shift
             step.update(session: session)
             steps_total_time += step.estimated_minute

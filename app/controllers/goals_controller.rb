@@ -9,7 +9,7 @@ class GoalsController < ApplicationController
   def index
     @current_day = Date.current
     @goals = current_user.goals
-    @sessions = @goals.flat_map(&:sessions) 
+    @sessions = @goals.flat_map(&:sessions)
      # Vérifier si on a des sessions avant de filtrer
     @today_sessions = @sessions.select { |session| session.start_time&.to_date == @current_day }
     @steps =  @today_sessions.flat_map { |session| session.steps.order(:id) }
