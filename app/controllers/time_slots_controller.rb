@@ -58,7 +58,7 @@ class TimeSlotsController < ApplicationController
   private
 
   def set_goal
-    @goal = Goal.find(params[:goal_id])
+    @goal = current_user.goals.find(params[:goal_id])
   end
 
   def time_slot_params

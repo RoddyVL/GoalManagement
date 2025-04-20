@@ -65,6 +65,6 @@ class GeneratePlanningJob < ApplicationJob
 
     end
     # on planifie la réassignation automatique des steps chaque jour à 00:01
-    ReassignStepsJob.set(wait_until: Time.current.beginning_of_day + 1.day).perform_later
+    ReassignStepsJob.set(wait_until: Time.current.beginning_of_day + 1.day).perform_later(goal_id)
   end
 end

@@ -25,7 +25,7 @@
   </div>
 <% end %>
 
-<% if @all_time_slots.any? %>
+<% if all_time_slots&.any? %>
   <div class="mt-4 row">
   <h2 class='text-center text-primary mb-4 fw-bold'>Créneaux déjà pris</h2>
     <% all_time_slots.group_by(&:day_of_week).each do |day_of_week, slots| %>

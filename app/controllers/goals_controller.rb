@@ -3,7 +3,17 @@ class GoalsController < ApplicationController
 
   def new
     @goal = Goal.new
-    @steps = @goal.steps.order(:priority)
+  end
+
+  def create
+    @goal = Goal.new(goal_params)
+    @goal.user = current_user
+    if @goal.save
+      session = Session.create(goal: @goal)
+      redirect_to new_goal_step_path(@goal)
+    else
+      render :new
+    end
   end
 
   def index
@@ -29,16 +39,6 @@ class GoalsController < ApplicationController
   end
 
 
-  def create
-    @goal = Goal.new(goal_params)
-    @goal.user = current_user
-    if @goal.save
-      session = Session.create(goal: @goal)
-      redirect_to new_goal_step_path(@goal)
-    else
-      render :new
-    end
-  end
 
   def edit
     @step = Step.new
@@ -52,7 +52,7 @@ class GoalsController < ApplicationController
   private
 
   def set_goal_and_steps
-    @goal = Goal.find(params[:id])
+    @goal = current_user.goals.find(params[:id])
     @steps = @goal.steps.order(:priority)
   end
 
