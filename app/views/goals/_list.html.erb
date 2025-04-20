@@ -10,7 +10,7 @@
       </thead>
       <tbody>
         <% steps.each do |step| %>
-          <tr class= "<%= 'table-success' if step.status == 1  %>" >
+          <tr class= "<%= 'table-primary' if step.status == 1  %>" >
             <td><%= step.description %></td>
             <td><%= step.estimated_minute %></td>
             <td><%= step.priority %></td>

@@ -3,6 +3,7 @@ class TimeSlotsController < ApplicationController
   def new
     @time_slot = TimeSlot.new
     @time_slots = @goal.time_slots.order(:day_of_week)
+    @all_time_slots = TimeSlot.where(goal: current_user.goals).where.not(goal: @goal).order(:day_of_week)
   end
 
   def create
@@ -11,7 +12,7 @@ class TimeSlotsController < ApplicationController
     if @time_slot.save
       redirect_to request.referer
     else
-      @time_slots = TimeSlot.all.order(:day_of_week, :start_time) # Réassigner @time_slots
+      @time_slots = TimeSlot.all.order(:day_of_week, :start_time) # On récupère à nouveau la variable pour la passer à la vue lors du render
       flash.now[:alert] = @time_slot.errors.full_messages.to_sentence
       render :new, notice: "créneaux déjà pris"
     end
@@ -31,7 +32,7 @@ class TimeSlotsController < ApplicationController
   end
 
   def index
-    @all_time_slots = TimeSlot.where(goal: current_user.goals).where.not(goal: @goal)
+    @all_time_slots = TimeSlot.where(goal: current_user.goals).where.not(goal: @goal).order(:day_of_week)
     @time_slots = @goal.time_slots.order(:start_time)
     @time_slot = TimeSlot.new
   end
@@ -57,7 +58,7 @@ class TimeSlotsController < ApplicationController
   private
 
   def set_goal
-    @goal = Goal.find(params[:goal_id])
+    @goal = current_user.goals.find(params[:goal_id])
   end
 
   def time_slot_params

@@ -4,8 +4,8 @@ class ReassignAfterUpdateJob < ApplicationJob
   def perform(goal_id)
     # on définis les variables nécessaires pour pouvoir execurer ce job
     goal = Goal.find(goal_id)
-    if goal.sessions.order(:start_time).last.end_time < Time.current
-      reference_date_and_time = Time.current
+    if goal.sessions.order(:start_time).last.end_time < Time.current # si l'heure et la date de fin de la dernière session est antérieiur à l'heure et à la date du jour
+      reference_date_and_time = Time.current                         # On prend Time.current comme le premier jour à partir du quelle on planifie
     else
       reference_date_and_time = goal.sessions.order(:start_time).last.end_time
     end
@@ -14,14 +14,10 @@ class ReassignAfterUpdateJob < ApplicationJob
 
     # On récupère tout les steps à réassinger tout les steps planifiés pour aujourd'hui ou dans le future
     # On récupère les futures sessions afin d'y assigné les steps
-    future_sessions = Session.where("start_time >= ?", Time.current).to_a.sort_by(&:start_time)
-    future_steps = future_sessions.flat_map { |session| session.steps }.sort_by(&:priority)
-    step_to_assign =  Step.where(session: nil)
-    puts "step to assign: #{step_to_assign.length}"
-    steps_to_reassign = future_steps + step_to_assign
+    future_sessions = goal.sessions.where("start_time >= ?", Time.current).to_a.sort_by(&:start_time)
+    steps_to_reassign = goal.steps.where(status: 0).order(:priority).to_a
     puts "future sessions: #{future_sessions.length}"
-    puts "future steps: #{future_steps.length}"
-    puts Step.where(status: 0).length
+    puts "#{steps_to_reassign.pluck(:description)} - #{steps_to_reassign}.size"
     puts "steps to reassign: #{steps_to_reassign.length}"
 
 
@@ -33,22 +29,29 @@ class ReassignAfterUpdateJob < ApplicationJob
       if future_sessions.any?
         future_sessions.each do |session|
           steps_total_time = 0
+
           while steps_total_time < session.total_time && steps_to_reassign.any?
             step = steps_to_reassign.shift
             step.update(session: session) unless step&.session == session
             steps_total_time += step.estimated_minute
             puts "step total time: #{steps_total_time} - session total time: #{session.total_time}"
           end
-          future_sessions.shift
-          puts "future session: #{future_sessions.length}"
         end
-      else
+      end
+
+      if steps_to_reassign.any?
+        puts "Steps left to reassign: #{steps_to_reassign.size}"
         while steps_to_reassign.any?
           next_time_slot = time_slots.detect do |slot|
-            (slot.day_of_week_before_type_cast == reference_day && slot.start_time > reference_date_and_time.time) || slot.day_of_week_before_type_cast > reference_day
+            slot_day = slot.day_of_week_before_type_cast
+            if slot_day == reference_day
+              slot.start_time.seconds_since_midnight >= reference_date_and_time.seconds_since_midnight
+            else
+              slot_day > reference_day
+            end
           end
-          next_time_slot = time_slots.first unless next_time_slot
-          puts "next_time_slot: #{next_time_slot}"
+          next_time_slot ||= time_slots.first # si aucun time slot n'est trouver pour la semaine, on prende le premier disponible pour la semaine suivante
+          puts "next_time_slot: #{next_time_slot.day_of_week}"
 
           # 2. on convertit le slot en une date et heure exploitable pour instancier une session
           day_to_add = (next_time_slot.day_of_week_before_type_cast - reference_day) % 7       # On calcul le nombre de jour qu'il faut rajouter à reference_date pour avoir la date qui correspond au 'slot"
