@@ -1,27 +1,25 @@
-  <%= link_to 'retour', goals_path, class:'btn btn-outline-primary mx-2 mt-2' %>
-
 <div class='container'>
   <h1 class='text-center my-5 fw-bold display-4 text-primary'><%= @goal.description %></h1>
   <%= render 'list', steps: @steps, goal: @goal %>
 
 
   <% if @time_slots.any? %>
-    <h2 class='text-center my-5'>Slots: </h2>
+    <h2 class='text-center my-5'><%= t('goals.slots') %></h2>
     <%= render 'goal_slots', time_slots: @time_slots %>
   <% end %>
 
-  <h1 class='text-center my-5'>Settings</h1>
+  <h1 class='text-center my-5'><%= t('goals.settings') %></h1>
 
-  <div class="d-flex justify-content-center gap-3 my-4">
-    <%= link_to 'modifier les étapes', edit_goal_path(@goal), class:'btn btn-outline-primary' %>
+  <div class="d-flex justify-content-center gap-1 my-4">
+    <%= link_to t('goals.modify_steps'), edit_goal_path(@goal), class:'btn btn-outline-primary' %>
 
-    <%= link_to "Créer une session", new_goal_session_path(@goal), class: "btn btn-outline-primary" %>
+    <%= link_to t('goals.create_session'), new_goal_session_path(@goal), class: "btn btn-outline-primary" %>
 
-    <%= link_to "Modifier mes disponibilités", goal_time_slots_path(@goal), class: 'btn btn-outline-primary' %>
+    <%= link_to t('goals.modify_availability'), goal_time_slots_path(@goal), class: 'btn btn-outline-primary' %>
 
-    <%= button_to "Clôturer ce projet", destroy_all_goal_time_slots_path(@goal),
+    <%= button_to t('goals.close_project'), destroy_all_goal_time_slots_path(@goal),
                   method: :delete,
-                  data: { turbo_confirm: "Es-tu sûr de vouloir supprimer tous les créneaux horaires ?" },
+                  data: { turbo_confirm: t('goals.confirm_delete_slots') },
                   class: "btn btn-danger" %>
   </div>
 

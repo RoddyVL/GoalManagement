@@ -2,7 +2,7 @@
   <!-- Card contenant les steps -->
 <div class="card shadow-sm rounded-4 border-0 my-4">
   <div class="card-header bg-light text-center rounded-top-4 py-4">
-    <h1 class="mb-3 fw-bold text-primary"><%= @current_day.strftime("%A %d %B") %></h1>
+    <h1 class="mb-3 fw-bold text-primary"><%= l(@current_day, format: "%A %d %B") %></h1>
 
     <% @today_sessions.each do |session| %>
       <h5 class="text-muted">
@@ -32,7 +32,7 @@
               </div>
             <% end %>
           <% else %>
-            <p class="text-center text-muted fs-5">You have nothing planned today</p>
+            <p class="text-center text-muted fs-5"><%= t("dashboard.nothing_planned") %></p>
           <% end %>
         </div>
       </div>
