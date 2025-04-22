@@ -1,16 +1,16 @@
 <div class='container mt-5'>
 
-  <h1 class='text-center display-4 fw-bold text-primary'><%= "define steps for: #{@goal.description}" %></h1>
+  <h1 class='text-center display-4 fw-bold text-primary'>  <%= t("goals.steps.title", goal: @goal.description) %></h1>
 
   <%= simple_form_for [@goal, @step], data: { turbo: true } do |f| %>
     <%= f.input :description %>
     <%= f.input :estimated_minute %>
-    <%= f.submit 'add step', class: 'btn btn-outline-dark mb-5' %>
+    <%= f.submit t("steps.form.add"), class: 'btn btn-outline-dark mb-5' %>
   <% end %>
 
   <% if @steps&.any? %>
     <%= render 'new_list', steps: @steps, class:'mt-5'%>
-    <%= link_to 'next step', new_goal_time_slot_path(@goal), class: 'btn btn-outline-primary mb-5 mt-2' %>
+    <%= link_to t("steps.form.next"), new_goal_time_slot_path(@goal), class: 'btn btn-outline-primary mb-5 mt-2' %>
   <% end %>
 
 </div>

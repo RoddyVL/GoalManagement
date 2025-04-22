@@ -1,0 +1,85 @@
+fr:
+  dashboard:
+    nothing_planned: "Vous n'avez rien de prévu"
+    progress_text: "%{progress} % complété"
+
+  goals:
+    new:
+      title: "Créer un nouvel objectif"
+    steps:
+      title: "Définir les étapes pour : %{goal}"
+    time_slots:
+      title: "Définir votre créneau pour : %{goal}"
+      day_of_week: "Jour de la semaine"
+      select_day: "Sélectionner un jour"
+      time_placeholder: "HH:MM"
+      add_slot: "Ajouter un créneau"
+      generate_calendar: "Générer le calendrier"
+    slots: "Créneaux horaires :"
+    settings: "Paramètres"
+    modify_steps: "Modifier les étapes"
+    create_session: "Créer une session"
+    modify_availability: "Modifier mes disponibilités"
+    close_project: "Clôturer ce projet"
+    confirm_delete_slots: "Es-tu sûr de vouloir supprimer tous les créneaux horaires ?"
+    start_time: "Heure de début"
+    end_time: "Heure de fin"
+    create_button: "Créer la session"
+    back_button: "Retour"
+
+  steps:
+    form:
+      add: "ajouter une étape"
+      next: "étape suivante"
+    table:
+      description: "Description"
+      estimated_minutes: "Durée estimée (minutes)"
+      priority: "Priorité"
+    buttons:
+      move_up: "↑"
+      move_down: "↓"
+      confirm_delete: "Voulez-vous vraiment supprimer cette étape ?"
+
+  activerecord:
+    attributes:
+      step:
+        description: "Description"
+        estimated_minute: "Durée estimée (minutes)"
+      time_slot:
+        start_time: "Heure de début"
+        end_time: "Heure de fin"
+
+  enum:
+    day_of_week:
+      sunday: "Dimanche"
+      monday: "Lundi"
+      tuesday: "Mardi"
+      wednesday: "Mercredi"
+      thursday: "Jeudi"
+      friday: "Vendredi"
+      saturday: "Samedi"
+
+  date:
+    abbr_day_names:
+      sunday: "Dim."
+      monday: "Lun."
+      tuesday: "Mar."
+      wednesday: "Mer."
+      thursday: "Jeu."
+      friday: "Ven."
+      saturday: "Sam."
+    day_names: [dimanche, lundi, mardi, mercredi, jeudi, vendredi, samedi]
+    abbr_day_names: [dim., lun., mar., mer., jeu., ven., sam.]
+    month_names: [~, janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre]
+    abbr_month_names: [~, janv., févr., mars, avril, mai, juin, juil., août, sept., oct., nov., déc.]
+    formats:
+      default: "%d/%m/%Y"
+      short: "%d %b"
+      long: "%A %d %B %Y"
+      jour_complet: "%A %d %B"
+
+  navigation:
+    dashboard: "Accueil"
+    calendar: "Agenda"
+    plan: "Plan"
+    log_out: "Quitter"

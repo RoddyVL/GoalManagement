@@ -1,16 +1,16 @@
 <div class='container mt-5'>
-  <h1 class="text-center display-4 fw-bold text-primary">Define your slot for: <%= @goal.description %></h1>
+  <h1 class="text-center display-4 fw-bold text-primary mb-5"><%= t('goals.time_slots.title', goal: @goal.description) %></h1>
   <%= simple_form_for [@goal, @time_slot] do |f| %>
     <%= f.input :day_of_week,
-                label: "Day of week",
-                collection: TimeSlot.day_of_weeks.keys.map { |key| [key.capitalize, key] },
-                include_blank: "Select a day" %>
+                label: t('goals.time_slots.day_of_week'),
+                collection: TimeSlot.day_of_weeks.keys.map { |key| [t("enum.day_of_week.#{key}"), key] },
+                include_blank: t('goals.time_slots.select_day') %>
 
     <%= f.input :start_time, as: :string,
               input_html: {
                 type: 'time',
                 pattern: '[0-9]{2}:[0-9]{2}',
-                placeholder: 'HH:MM',
+                placeholder: t('goals.time_slots.time_placeholder'),
                 step: '60',
                 required: true
               } %>
@@ -19,18 +19,18 @@
               input_html: {
                 type: 'time',
                 pattern: '[0-9]{2}:[0-9]{2}',
-                placeholder: 'HH:MM',
+                placeholder: t('goals.time_slots.time_placeholder'),
                 step: '60',
                 required: true
               } %>
 
-    <%= f.submit 'Add a slot', class:'btn btn-outline-primary mt-3'%>
+    <%= f.submit t('goals.time_slots.add_slot'), class:'btn btn-outline-primary mt-3'%>
   <% end %>
 
   <%= render 'slots', time_slots: @time_slots, goal: @goal, all_time_slots: @all_time_slots %>
 
   <div class=' d-flex justify-content-center'>
-    <%= link_to "Generate calendar", generate_calendar_goal_time_slots_path, class: "btn btn-outline-primary my-5" %>
+    <%= link_to t('goals.time_slots.generate_calendar'), generate_calendar_goal_time_slots_path, class: "btn btn-outline-primary my-5" %>
   </div>
 
 </div>

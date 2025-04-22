@@ -2,9 +2,9 @@
   <table class="table table-bordered "> <!-- Tableau Bootstrap -->
     <thead >
       <tr class="table-dark">
-        <th>Description</th>
-        <th>Estimated minutes</th>
-        <th>Priority</th>
+        <th><%= t('steps.table.description') %></th>
+        <th><%= t('steps.table.estimated_minutes') %></th>
+        <th><%= t('steps.table.priority') %></th>
         <th></th>
         <th></th>
       </tr>
@@ -16,8 +16,8 @@
           <td><%= step.estimated_minute %></td>
           <td><%= step.priority %></td>
           <td>
-            <%= button_to "↑", move_up_new_step_path(step), method: :patch, class: "btn btn-sm btn-primary" %>
-            <%= button_to "↓", move_down_new_step_path(step), method: :patch, class: "btn btn-sm btn-secondary"%>
+            <%= button_to t('steps.buttons.move_up'), move_up_new_step_path(step), method: :patch, class: "btn btn-sm btn-primary" %>
+            <%= button_to t('steps.buttons.move_down'), move_down_new_step_path(step), method: :patch, class: "btn btn-sm btn-secondary"%>
           </td>
           <td>
             <%= link_to edit_step_path(step) do %>

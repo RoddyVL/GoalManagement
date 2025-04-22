@@ -29,6 +29,9 @@ module GoalManagement
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.i18n.default_locale = :fr
+    I18n.locale = :fr
+
     config.active_job.queue_adapter = :solid_queue
     require "solid_queue"
   end
