@@ -1,5 +1,3 @@
-  <%= link_to 'retour', goals_path, class:'btn btn-outline-primary mx-2 mt-2' %>
-
 <div class='container'>
   <h1 class='text-center my-5 fw-bold display-4 text-primary'><%= @goal.description %></h1>
   <%= render 'list', steps: @steps, goal: @goal %>
@@ -12,7 +10,7 @@
 
   <h1 class='text-center my-5'>Settings</h1>
 
-  <div class="d-flex justify-content-center gap-3 my-4">
+  <div class="d-flex justify-content-center gap-1 my-4">
     <%= link_to 'modifier les étapes', edit_goal_path(@goal), class:'btn btn-outline-primary' %>
 
     <%= link_to "Créer une session", new_goal_session_path(@goal), class: "btn btn-outline-primary" %>
