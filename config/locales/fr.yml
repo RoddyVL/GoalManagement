@@ -26,6 +26,9 @@ fr:
     end_time: "Heure de fin"
     create_button: "Créer la session"
     back_button: "Retour"
+    form:
+      submit: "Créer un objectif"
+
 
   steps:
     form:

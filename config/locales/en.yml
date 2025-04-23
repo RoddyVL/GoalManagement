@@ -27,6 +27,9 @@ en:
     end_time: "End Time"
     create_button: "Create Session"
     back_button: "Back"
+    form:
+      submit: "Create goal"
+
 
   steps:
     form:
