@@ -7,12 +7,33 @@
       <h5 class="text-muted mt-3">L'app qui transforme tes objectifs en planning réaliste, s’adapte à tes journées, et te garde concentré sur l’essentiel.</h5>
     </div>
 
-    <!-- Video Section -->
-   <div class="d-flex justify-content-center mb-4">
-      <video autoplay muted width="640" height="360" controls style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-        <source src="<%= asset_path('VSL.mp4') %>" type="video/mp4">
-        Ton navigateur ne supporte pas la lecture vidéo.
-      </video>
+    <div data-controller="sound-hint" class="position-relative mb-5" style="max-width: 800px; margin: 0 auto;">
+      <!-- Icône / Message -->
+      <div
+        data-sound-hint-target="hint"
+        data-action="click->sound-hint#enableSound"
+        class="position-absolute top-50 start-50 translate-middle text-white text-center p-3 rounded bg-dark bg-opacity-75"
+        style="z-index: 10; cursor: pointer;"
+      >
+        <i class="bi bi-volume-mute-fill fs-1"></i>
+        <div class="mt-2">Clique pour activer le son</div>
+      </div>
+
+      <!-- Vidéo -->
+      <div class="ratio ratio-16x9">
+        <video
+          data-sound-hint-target="video"
+          autoplay
+          muted
+          controls
+          controlslist="nodownload"
+          oncontextmenu="return false"
+          style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; height: 100%;"
+        >
+          <source src="<%= asset_path('VSL.mp4') %>" type="video/mp4">
+          Ton navigateur ne supporte pas la lecture vidéo.
+        </video>
+      </div>
     </div>
 
 
@@ -94,90 +115,91 @@
   <div class="container">
     <h1 class= "fw-bold text-primary text-center mt-3">L'application en 3 étapes</h1>
 
-    <!-- étape 1-->
-    <p class='text-start'>1. je définis un objectif</p>
-    <div class="d-flex justify-content-start mb-4">
-      <video
-        autoplay
-        muted
-        loop
-        playsinline
-        style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
-        <source src="<%= asset_path('goal.mp4') %>" type="video/mp4">
-        Ton navigateur ne supporte pas la vidéo HTML5.
-      </video>
-    </div>
+<!-- étape 1-->
+<div class="d-flex flex-column align-items-center mb-4">
+  <p class="text-center mb-2">1. je définis un objectif</p>
+  <video
+    autoplay
+    muted
+    loop
+    playsinline
+    style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
+    <source src="<%= asset_path('goal.mp4') %>" type="video/mp4">
+    Ton navigateur ne supporte pas la vidéo HTML5.
+  </video>
+</div>
 
-    <!-- étape 2-->
-    <p class='text-end'>2. je renseigne les tâches et leurs durées estimés</p>
-    <div class="d-flex justify-content-end mb-4">
-      <video
-        autoplay
-        muted
-        loop
-        playsinline
-        style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
-        <source src="<%= asset_path('steps.mp4') %>" type="video/mp4">
-        Ton navigateur ne supporte pas la vidéo HTML5.
-      </video>
-    </div>
+<!-- étape 2-->
+<div class="d-flex flex-column align-items-start mb-5">
+  <p class="text-center mb-2">2. je renseigne les tâches et leurs durées estimées</p>
+  <video
+    autoplay
+    muted
+    loop
+    playsinline
+    style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
+    <source src="<%= asset_path('steps.mp4') %>" type="video/mp4">
+    Ton navigateur ne supporte pas la vidéo HTML5.
+  </video>
+</div>
 
-    <!-- étape 3-->
-    <p class='text-center'>3. je renseigne mes disponibilités pour cet objectif</p>
-    <div class="d-flex justify-content-center mb-4">
-      <video
-        autoplay
-        muted
-        loop
-        playsinline
-        style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
-        <source src="<%= asset_path('slots.mp4') %>" type="video/mp4">
-        Ton navigateur ne supporte pas la vidéo HTML5.
-      </video>
-    </div>
+<!-- étape 3-->
+<div class="d-flex flex-column align-items-center mb-4">
+  <p class="text-center mb-2">3. je renseigne mes disponibilités pour cet objectif</p>
+  <video
+    autoplay
+    muted
+    loop
+    playsinline
+    style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
+    <source src="<%= asset_path('slots.mp4') %>" type="video/mp4">
+    Ton navigateur ne supporte pas la vidéo HTML5.
+  </video>
+</div>
 
-    <!-- résultats 1-->
-    <h2 class='text-center fw-bold text-primary mt-5'>Résultats:</h2>
-    <p class='text-end'>L'application plannifie automatiquement les tâches</p>
-    <div class="d-flex justify-content-end mb-4">
-      <video
-        autoplay
-        muted
-        loop
-        playsinline
-        style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
-        <source src="<%= asset_path('calendar.mp4') %>" type="video/mp4">
-        Ton navigateur ne supporte pas la vidéo HTML5.
-      </video>
-    </div>
+<!-- résultats 1-->
+<h2 class="text-center fw-bold text-primary mt-5">Résultats:</h2>
+<div class="d-flex flex-column align-items-center mb-4">
+  <p class="text-center mb-2">L'application planifie automatiquement les tâches</p>
+  <video
+    autoplay
+    muted
+    loop
+    playsinline
+    style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
+    <source src="<%= asset_path('calendar.mp4') %>" type="video/mp4">
+    Ton navigateur ne supporte pas la vidéo HTML5.
+  </video>
+</div>
 
-    <!-- résultats 2-->
-    <p class='text-start'>Tout les jours les actions planifiés s'affiche sous sous forme de to-do list</p>
-    <div class="d-flex justify-content-start mb-4">
-      <video
-        autoplay
-        muted
-        loop
-        playsinline
-        style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
-        <source src="<%= asset_path('tasks.mp4') %>" type="video/mp4">
-        Ton navigateur ne supporte pas la vidéo HTML5.
-      </video>
-    </div>
+<!-- résultats 2-->
+<div class="d-flex flex-column align-items-start mb-4 mt-5">
+  <p class="text-center mb-2">Tous les jours les actions planifiées s'affichent sous forme de to-do list</p>
+  <video
+    autoplay
+    muted
+    loop
+    playsinline
+    style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
+    <source src="<%= asset_path('tasks.mp4') %>" type="video/mp4">
+    Ton navigateur ne supporte pas la vidéo HTML5.
+  </video>
+</div>
 
-    <!-- résultats 3-->
-    <p class='text-center'>A la fin de la journée les actions qui n'ont pas été effectué sont automatiquement replanifié en respectant l'ordre de priorité</p>
-    <div class="d-flex justify-content-center mb-4">
-      <video
-        autoplay
-        muted
-        loop
-        playsinline
-        style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
-        <source src="<%= asset_path('plan.mp4') %>" type="video/mp4">
-        Ton navigateur ne supporte pas la vidéo HTML5.
-      </video>
-    </div>
+<!-- résultats 3-->
+<div class="d-flex flex-column align-items-center mb-4 mt-5">
+  <p class="text-center mb-2">À la fin de la journée, les actions non effectuées sont automatiquement replanifiées en respectant l'ordre de priorité</p>
+  <video
+    autoplay
+    muted
+    loop
+    playsinline
+    style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 640px;">
+    <source src="<%= asset_path('plan.mp4') %>" type="video/mp4">
+    Ton navigateur ne supporte pas la vidéo HTML5.
+  </video>
+</div>
+
     <div class="text-center my-5">
       <%= link_to "🚀 Commence gratuitement et gagne en clarté dès aujourd’hui !",  new_user_registration_path, class: 'btn btn-lg px-5 py-3 fw-bold shadow text-white', style: 'background-color: #007B8F;' %>
     </div>
