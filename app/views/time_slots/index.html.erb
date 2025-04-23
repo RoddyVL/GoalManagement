@@ -1,8 +1,8 @@
 <div class='container mt-5'>
   <%= simple_form_for [@goal, @time_slot] do |f| %>
     <%= f.input :day_of_week,
-                label: "Jour de la semaine",
-                collection: TimeSlot.day_of_weeks.keys.map { |key| [key.capitalize, key] },
+                label: t('goals.time_slots.day_of_week'),
+                collection: TimeSlot.day_of_weeks.keys.map { |key| [t("enum.day_of_week.#{key}"), key] },
                 include_blank: "Sélectionnez un jour" %>
 
     <%= f.input :start_time, as: :string,
