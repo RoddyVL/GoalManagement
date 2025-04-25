@@ -8,8 +8,10 @@ class SessionsController < ApplicationController
   def create
     @session = @goal.sessions.new(session_params)
     if @session.save
+      puts @session.start_time
+      puts @session.end_time
       puts "start job"
-      CreateSessionJob.perform_now(@goal.id)
+      CreateSessionJob.perform_now(@goal.id, @session.id)
       redirect_to calendars_path
     else
       redirect_to goals_path

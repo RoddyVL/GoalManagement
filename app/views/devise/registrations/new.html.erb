@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-12 col-sm-4 form-login ">
-      <h2>Sign up</h2>
+      <h2><%= t('auth.sign_up') %></h2>
 
       <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
         <%= f.error_notification %>
@@ -12,16 +12,18 @@
                       autofocus: true,
                       input_html: { autocomplete: "email" }%>
           <%= f.input :password,
+                      label: t('auth.password'),
                       required: true,
-                      hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                      hint: (t('auth.password_hint', count: @minimum_password_length)  if @minimum_password_length),
                       input_html: { autocomplete: "new-password" } %>
           <%= f.input :password_confirmation,
+                      label: t('auth.password_confirmation'),
                       required: true,
                       input_html: { autocomplete: "new-password" } %>
         </div>
 
         <div class="form-actions">
-          <%= f.button :submit, "Sign up", class:'btn text-light fw-bold', style:'background-color: #007B8F;' %>
+          <%= f.button :submit,  t('auth.sign_up'), class:'btn text-light fw-bold', style:'background-color: #007B8F;' %>
         </div>
       <% end %>
       <%= render "devise/shared/links" %>

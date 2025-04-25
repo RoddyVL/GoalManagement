@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row justify-content-center">
-    <div class="col-12 col-sm-4 form-login ">
-      <h2>Change your password</h2>
+    <div class="col-12 col-sm-4 form-login">
+      <h2><%= t("devise.passwords.edit.title") %></h2>
 
       <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
         <%= f.error_notification %>
@@ -11,19 +11,20 @@
 
         <div class="form-inputs">
           <%= f.input :password,
-                      label: "New password",
+                      label: t("devise.passwords.edit.new_password"),
                       required: true,
                       autofocus: true,
-                      hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                      hint: ("#{@minimum_password_length} #{t("devise.passwords.edit.characters_minimum")}" if @minimum_password_length),
                       input_html: { autocomplete: "new-password" } %>
+
           <%= f.input :password_confirmation,
-                      label: "Confirm your new password",
+                      label: t("devise.passwords.edit.confirm_password"),
                       required: true,
                       input_html: { autocomplete: "new-password" } %>
         </div>
 
         <div class="form-actions">
-          <%= f.button :submit, "Change my password" %>
+          <%= f.button :submit, t("devise.passwords.edit.change_button") %>
         </div>
       <% end %>
 

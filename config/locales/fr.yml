@@ -26,6 +26,9 @@ fr:
     end_time: "Heure de fin"
     create_button: "Créer la session"
     back_button: "Retour"
+    form:
+      submit: "Créer un objectif"
+
 
   steps:
     form:
@@ -83,3 +86,37 @@ fr:
     calendar: "Agenda"
     plan: "Plan"
     log_out: "Quitter"
+
+  auth:
+    sign_up: "Inscription"
+    email: "Adresse email"
+    password: "Mot de passe"
+    password_confirmation: "Confirmation du mot de passe"
+    password_hint: "%{count} caractères minimum"
+    sign_up: "Inscription"
+
+  devise:
+    links:
+      log_in: "Se connecter"
+      sign_up: "Créer un compte"
+      forgot_password: "Mot de passe oublié ?"
+      resend_confirmation: "Pas reçu les instructions de confirmation ?"
+      resend_unlock: "Pas reçu les instructions de déverrouillage ?"
+      sign_in_with_provider: "Se connecter avec %{provider}"
+    sessions:
+      new:
+        title: "Connexion"
+        email: "Email"
+        password: "Mot de passe"
+        remember_me: "Se souvenir de moi"
+        submit: "Se connecter"
+    passwords:
+      edit:
+        title: "Changer votre mot de passe"
+        new_password: "Nouveau mot de passe"
+        confirm_password: "Confirmez votre nouveau mot de passe"
+        change_button: "Changer mon mot de passe"
+        characters_minimum: "caractères minimum"
+      new:
+        title: "Mot de passe oublié ?"
+        send_button: "Envoyer les instructions de réinitialisation"

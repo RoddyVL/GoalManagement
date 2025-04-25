@@ -2,7 +2,6 @@
 <h1 class='text-center display-4 text-primary fw-bold'>  <%= t("goals.new.title") %></h1>
   <%= simple_form_for @goal do |f| %>
     <%= f.input :description %>
-    <%= f.submit 'create goal', class:'btn btn-outline-primary' %>
+    <%= f.submit t('goals.form.submit'), class:'btn btn-outline-primary' %>
   <% end %>
 </div>
-<%= I18n.locale %>
